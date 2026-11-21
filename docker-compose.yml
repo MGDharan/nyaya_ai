@@ -1,0 +1,34 @@
+services:
+  nyayaai:
+    build: ./backend
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./backend/.env
+    volumes:
+      - ./backend/data:/app/data
+    depends_on:
+      - chromadb
+      - postgres
+    environment:
+      - CHROMA_HOST=chromadb
+      - CHROMA_PORT=8001
+  chromadb:
+    image: chromadb/chroma:latest
+    ports:
+      - "8001:8000"
+    volumes:
+      - nyayaai_chroma:/chroma/chroma
+  postgres:
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_DB: nyayaai
+      POSTGRES_USER: nyayaai
+      POSTGRES_PASSWORD: change-me-before-deploy
+    ports:
+      - "5433:5432"
+    volumes:
+      - nyayaai_pg:/var/lib/postgresql/data
+volumes:
+  nyayaai_pg:
+  nyayaai_chroma:

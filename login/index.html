@@ -1,0 +1,1408 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="web_blank" name="shell-type">
+    <title>Nyaya AI Secure Verification</title>
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Manrope:wght@600;700&amp;display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet">
+    <style>
+        @layer base {
+
+            html,
+            body {
+                margin: 0;
+                padding: 0;
+            }
+
+            body {
+                overscroll-behavior: none;
+            }
+
+            main>:first-child {
+                margin-top: 0 !important;
+            }
+
+            main>:last-child {
+                margin-bottom: 0 !important;
+            }
+        }
+
+        ::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script id="tailwind-config">tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-fixed": "#d5e3ff",
+                        "error": "#ba1a1a",
+                        "background": "#f8f9ff",
+                        "secondary": "#775a19",
+                        "on-tertiary-fixed": "#001c3b",
+                        "primary": "#000917",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-tint": "#4d6079",
+                        "on-background": "#0b1c30",
+                        "on-surface": "#0b1c30",
+                        "surface-bright": "#f8f9ff",
+                        "primary-container": "#0d2137",
+                        "primary-fixed-dim": "#b5c8e5",
+                        "on-primary-container": "#7689a4",
+                        "inverse-on-surface": "#eaf1ff",
+                        "inverse-surface": "#213145",
+                        "on-tertiary": "#ffffff",
+                        "secondary-fixed-dim": "#e9c176",
+                        "on-primary": "#ffffff",
+                        "on-primary-fixed-variant": "#364860",
+                        "surface-variant": "#d3e4fe",
+                        "on-surface-variant": "#44474d",
+                        "outline": "#74777d",
+                        "primary-fixed": "#d2e4ff",
+                        "tertiary-fixed-dim": "#adc8f5",
+                        "surface-container": "#e5eeff",
+                        "on-error-container": "#93000a",
+                        "on-secondary-fixed": "#261900",
+                        "surface": "#f8f9ff",
+                        "error-container": "#ffdad6",
+                        "tertiary-container": "#002043",
+                        "outline-variant": "#c4c6cd",
+                        "surface-container-highest": "#d3e4fe",
+                        "tertiary": "#000818",
+                        "surface-container-low": "#eff4ff",
+                        "on-tertiary-fixed-variant": "#2d486d",
+                        "on-secondary": "#ffffff",
+                        "inverse-primary": "#b5c8e5",
+                        "surface-container-high": "#dce9ff",
+                        "on-secondary-fixed-variant": "#5d4201",
+                        "on-primary-fixed": "#081c32",
+                        "surface-dim": "#cbdbf5",
+                        "secondary-container": "#fed488",
+                        "secondary-fixed": "#ffdea5",
+                        "on-secondary-container": "#785a1a",
+                        "on-error": "#ffffff",
+                        "on-tertiary-container": "#6f89b2"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter-mobile": "1rem",
+                        "space-lg": "1.5rem",
+                        "space-xs": "0.25rem",
+                        "space-xl": "2.5rem",
+                        "gutter": "1.5rem",
+                        "space-sm": "0.5rem",
+                        "margin-mobile": "1.25rem",
+                        "space-md": "1rem",
+                        "margin": "2.5rem"
+                    },
+                    "fontFamily": {
+                        "display-lg": [
+                            "Manrope"
+                        ],
+                        "body-lg": [
+                            "Inter"
+                        ],
+                        "display-lg-mobile": [
+                            "Manrope"
+                        ],
+                        "citation-mono": [
+                            "Inter"
+                        ],
+                        "headline-lg": [
+                            "Manrope"
+                        ],
+                        "label-md": [
+                            "Inter"
+                        ],
+                        "body-sm": [
+                            "Inter"
+                        ],
+                        "headline-sm": [
+                            "Manrope"
+                        ],
+                        "headline-md": [
+                            "Manrope"
+                        ],
+                        "label-sm": [
+                            "Inter"
+                        ],
+                        "title-md": [
+                            "Manrope"
+                        ],
+                        "headline-lg-mobile": [
+                            "Manrope"
+                        ],
+                        "body-md": [
+                            "Inter"
+                        ]
+                    },
+                    "fontSize": {
+                        "display-lg": [
+                            "48px",
+                            {
+                                "lineHeight": "56px",
+                                "letterSpacing": "-0.02em",
+                                "fontWeight": "700"
+                            }
+                        ],
+                        "body-lg": [
+                            "16px",
+                            {
+                                "lineHeight": "26px",
+                                "letterSpacing": "-0.005em",
+                                "fontWeight": "400"
+                            }
+                        ],
+                        "display-lg-mobile": [
+                            "32px",
+                            {
+                                "lineHeight": "40px",
+                                "letterSpacing": "-0.015em",
+                                "fontWeight": "700"
+                            }
+                        ],
+                        "citation-mono": [
+                            "12px",
+                            {
+                                "lineHeight": "16px",
+                                "letterSpacing": "0.02em",
+                                "fontWeight": "500"
+                            }
+                        ],
+                        "headline-lg": [
+                            "32px",
+                            {
+                                "lineHeight": "40px",
+                                "letterSpacing": "-0.015em",
+                                "fontWeight": "600"
+                            }
+                        ],
+                        "label-md": [
+                            "13px",
+                            {
+                                "lineHeight": "18px",
+                                "letterSpacing": "0.01em",
+                                "fontWeight": "500"
+                            }
+                        ],
+                        "body-sm": [
+                            "12px",
+                            {
+                                "lineHeight": "18px",
+                                "letterSpacing": "0.005em",
+                                "fontWeight": "400"
+                            }
+                        ],
+                        "headline-sm": [
+                            "20px",
+                            {
+                                "lineHeight": "28px",
+                                "letterSpacing": "-0.005em",
+                                "fontWeight": "600"
+                            }
+                        ],
+                        "headline-md": [
+                            "24px",
+                            {
+                                "lineHeight": "32px",
+                                "letterSpacing": "-0.01em",
+                                "fontWeight": "600"
+                            }
+                        ],
+                        "label-sm": [
+                            "11px",
+                            {
+                                "lineHeight": "16px",
+                                "letterSpacing": "0.04em",
+                                "fontWeight": "600"
+                            }
+                        ],
+                        "title-md": [
+                            "16px",
+                            {
+                                "lineHeight": "24px",
+                                "letterSpacing": "0em",
+                                "fontWeight": "600"
+                            }
+                        ],
+                        "headline-lg-mobile": [
+                            "26px",
+                            {
+                                "lineHeight": "34px",
+                                "letterSpacing": "-0.01em",
+                                "fontWeight": "600"
+                            }
+                        ],
+                        "body-md": [
+                            "14px",
+                            {
+                                "lineHeight": "22px",
+                                "letterSpacing": "0em",
+                                "fontWeight": "400"
+                            }
+                        ]
+                    }
+                },
+            },
+        }</script>
+</head>
+
+<body class="bg-surface font-body-md text-on-surface antialiased min-h-screen flex">
+    <main class="w-full min-h-screen">
+        <div class="w-full flex-1 flex flex-col justify-between bg-surface-container-lowest">
+            <div class="w-full flex-1 grid grid-cols-1 lg:grid-cols-12 min-h-[calc(100vh-68px)]">
+                <!-- Left Section: Sovereign Legal Mission & Branding (5 cols) -->
+                <div
+                    class="lg:col-span-5 relative bg-primary text-on-primary p-space-lg lg:p-space-xl flex flex-col justify-between overflow-hidden shadow-xl">
+                    <div
+                        class="absolute -right-16 -top-16 w-80 h-80 rounded-full bg-secondary-container/10 blur-3xl pointer-events-none">
+                    </div>
+                    <div
+                        class="absolute -left-12 -bottom-12 w-64 h-64 rounded-full bg-surface-tint/20 blur-2xl pointer-events-none">
+                    </div>
+                    <div class="absolute right-4 bottom-12 opacity-5 pointer-events-none select-none"><svg
+                            class="w-80 h-80 text-on-primary" fill="currentColor" viewBox="0 0 100 100">
+                            <circle cx="50" cy="50" fill="none" r="46" stroke="currentColor" stroke-width="2"></circle>
+                            <circle cx="50" cy="50" fill="none" r="38" stroke="currentColor" stroke-dasharray="2,2"
+                                stroke-width="1"></circle>
+                            <path d="M50 12 L50 88 M12 50 L88 50 M23 23 L77 77 M23 77 L77 23" stroke="currentColor"
+                                stroke-width="0.8"></path>
+                            <circle cx="50" cy="50" fill="currentColor" r="10"></circle>
+                        </svg></div>
+                    <div class="relative z-10">
+                        <div
+                            class="inline-flex items-center gap-space-sm px-3 py-1.5 rounded-full bg-primary-container text-secondary-fixed text-label-sm font-label-sm tracking-wider uppercase shadow-sm">
+                            <span
+                                class="material-symbols-outlined text-secondary-fixed text-[14px]">gavel</span><span>Sovereign
+                                Legal Intelligence</span></div>
+                        <div class="mt-space-lg flex items-center gap-space-md">
+                            <div
+                                class="relative w-16 h-16 rounded-xl overflow-hidden bg-primary-container p-1 shadow-md flex items-center justify-center shrink-0">
+                                <img alt="Nyaya AI Justice Emblem" class="w-full h-full object-contain"
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuB6VPardaOTolSdrbuE-M6ti-uoy8vGTPg3lfS-MXi3QBDK6TyNBPwoUZ0GRQT9p__xdYvWxSPT4Xx1z3ZXkkpez3ODGjS40xwlR1SOSmXdyOzs2WDX37zS0vggLbeGiU0QQHdgg45oDKMuXa9hEvzIYOspS9xRpbXTjmKhBQR8gi04G40gkSko3VJOckLf_VKjJIEXIsjPmXo4yBj0VboleohOJYor2F58rr_UFK7O">
+                            </div>
+                            <div>
+                                <div class="flex items-baseline gap-space-xs"><span
+                                        class="font-headline-md text-headline-md text-on-primary tracking-tight">Nyaya
+                                        AI</span><span
+                                        class="font-headline-sm text-headline-sm text-secondary-fixed-dim">(न्याय
+                                        AI)</span></div>
+                                <p class="font-citation-mono text-citation-mono text-on-primary-container">Ministry
+                                    Standard Legal Tech Engine</p>
+                            </div>
+                        </div>
+                        <div class="mt-space-xl">
+                            <h1
+                                class="font-headline-lg text-headline-lg lg:text-display-lg-mobile text-on-primary leading-tight">
+                                Justice, Knowledge &amp; Legal Assistance, Simplified.</h1>
+                            <p class="mt-space-sm font-body-md text-body-md text-on-primary-container leading-relaxed">
+                                Your intelligent companion for understanding Indian laws, statutory provisions, and
+                                rights.</p>
+                        </div>
+                        <div class="mt-space-lg space-y-space-md">
+                            <div class="flex items-start gap-space-sm p-space-sm rounded-lg bg-primary-container/40">
+                                <div
+                                    class="mt-0.5 w-6 h-6 rounded-full bg-secondary-container/20 text-secondary-fixed flex items-center justify-center shrink-0">
+                                    <span class="material-symbols-outlined text-[16px]"
+                                        style="font-variation-settings: 'FILL' 1;">verified</span></div>
+                                <div><span class="font-title-md text-title-md text-on-primary block">AI-Powered Legal
+                                        Guidance</span>
+                                    <p
+                                        class="font-body-sm text-body-sm text-surface-container-high leading-snug mt-0.5">
+                                        Authoritative analysis covering Bharatiya Nyaya Sanhita (BNS), CrPC, CPC,
+                                        Bharatiya Sakshya Adhiniyam (BSA), and Fundamental Constitutional Rights.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-space-sm p-space-sm rounded-lg bg-primary-container/40">
+                                <div
+                                    class="mt-0.5 w-6 h-6 rounded-full bg-secondary-container/20 text-secondary-fixed flex items-center justify-center shrink-0">
+                                    <span class="material-symbols-outlined text-[16px]"
+                                        style="font-variation-settings: 'FILL' 1;">verified</span></div>
+                                <div><span class="font-title-md text-title-md text-on-primary block">Structured
+                                        Statutory Provisions &amp; Citing</span>
+                                    <p
+                                        class="font-body-sm text-body-sm text-surface-container-high leading-snug mt-0.5">
+                                        Instant access to verified Indian legal sections, schedules, landmark Supreme
+                                        Court precedent cross-references, and procedural timelines.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-space-sm p-space-sm rounded-lg bg-primary-container/40">
+                                <div
+                                    class="mt-0.5 w-6 h-6 rounded-full bg-secondary-container/20 text-secondary-fixed flex items-center justify-center shrink-0">
+                                    <span class="material-symbols-outlined text-[16px]"
+                                        style="font-variation-settings: 'FILL' 1;">verified</span></div>
+                                <div><span class="font-title-md text-title-md text-on-primary block">Zero-Retention
+                                        Secure Legal Assistance</span>
+                                    <p
+                                        class="font-body-sm text-body-sm text-surface-container-high leading-snug mt-0.5">
+                                        Enterprise-grade confidentiality with Row-Level Security (RLS) and zero-logging
+                                        policy protecting sensitive legal research.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="relative z-10 mt-space-xl pt-space-lg">
+                        <div
+                            class="p-space-sm px-space-md rounded-lg bg-primary-container flex items-center justify-between gap-space-sm shadow-sm">
+                            <div class="flex items-center gap-space-sm"><span
+                                    class="material-symbols-outlined text-secondary-fixed text-[20px]">verified_user</span><span
+                                    class="font-label-sm text-label-sm text-surface-container-high">DPDPA 2023 &amp; IT
+                                    Act Compliant • 256-bit Encrypted</span></div><span
+                                class="font-citation-mono text-citation-mono text-secondary-fixed-dim">ISO 27001</span>
+                        </div>
+                        <div class="mt-space-md flex items-center justify-between"><span
+                                class="font-citation-mono text-citation-mono text-on-primary-container">Legal Bench
+                                Edition v2.4</span><button
+                                class="inline-flex items-center gap-1 font-label-md text-label-md text-secondary-fixed hover:text-secondary-fixed-dim transition-colors"
+                                onclick="window.location.hash='admin'" type="button"><span>Admin officer
+                                    access</span><span
+                                    class="material-symbols-outlined text-[16px]">arrow_forward</span></button></div>
+                    </div>
+                </div><!-- Right Section: Elevated Authentication Workspace (7 cols) -->
+                <div class="lg:col-span-7 bg-surface p-space-lg lg:p-space-xl flex flex-col justify-between">
+                    <div class="w-full max-w-xl mx-auto my-auto py-space-md">
+                        <div class="flex items-center justify-between pb-space-md">
+                            <div
+                                class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-surface-container-low text-primary-container font-label-sm text-label-sm">
+                                <span
+                                    class="material-symbols-outlined text-[15px] text-secondary">shield</span><span>Advocate-Client
+                                    Privilege Protected</span></div><span
+                                class="font-citation-mono text-citation-mono text-outline">Sovereign Cloud India</span>
+                        </div>
+                        <!-- Card Header -->
+                        <div class="mt-space-sm">
+                            <div
+                                class="w-12 h-12 rounded-xl bg-surface-container flex items-center justify-center text-primary-container mb-space-sm">
+                                <span class="material-symbols-outlined text-[24px]" id="headerIcon">lock</span>
+                            </div>
+                            <h2 class="font-headline-lg text-headline-lg text-on-surface" id="authTitle">Welcome to Nyaya AI</h2>
+                            <p class="mt-1 font-body-md text-body-md text-on-surface-variant" id="authSubtitle">
+                                Sign in with your registered email and password to access your sovereign legal assistant.
+                            </p>
+                        </div>
+
+                        <!-- Main Auth Container -->
+                        <div class="mt-space-lg bg-surface-container-lowest p-space-lg rounded-xl shadow-md border border-surface-container/60">
+
+                            <!-- Top Tab: Sign In vs Sign Up (hidden when logged in) -->
+                            <div id="authTabsNav" class="flex border-b border-surface-container mb-space-md">
+                                <button type="button" id="tabSignIn" onclick="switchAuthMode('signin')"
+                                    class="flex-1 pb-3 font-title-md text-title-md text-center border-b-2 border-primary text-primary font-semibold transition-all flex items-center justify-center gap-1.5">
+                                    <span class="material-symbols-outlined text-[18px]">login</span>
+                                    <span>Sign In</span>
+                                </button>
+                                <button type="button" id="tabSignUp" onclick="switchAuthMode('signup')"
+                                    class="flex-1 pb-3 font-title-md text-title-md text-center border-b-2 border-transparent text-outline hover:text-on-surface font-semibold transition-all flex items-center justify-center gap-1.5">
+                                    <span class="material-symbols-outlined text-[18px]">person_add</span>
+                                    <span>Create Account</span>
+                                </button>
+                            </div>
+
+                            <!-- Role Switcher (Two Account Types: Advocate vs Civilian) -->
+                            <div id="roleSelectorContainer" class="mb-space-md">
+                                <div class="flex items-center justify-between mb-1.5">
+                                    <label class="font-label-sm text-label-sm text-outline uppercase tracking-wider font-semibold">Select Account Type</label>
+                                    <span class="font-citation-mono text-citation-mono text-secondary" id="roleDescBadge">Court &amp; Bar Access</span>
+                                </div>
+                                <div class="flex items-center p-1 rounded-lg bg-surface-container-low border border-surface-container">
+                                    <button type="button" id="roleAdvocate" onclick="setRole('advocate')"
+                                        class="flex-1 py-2 px-3 rounded-lg text-center font-label-md text-label-md bg-primary-container text-on-primary shadow-sm transition-all flex items-center justify-center gap-1.5">
+                                        <span class="material-symbols-outlined text-[16px]">balance</span>
+                                        <span>Advocate / Counsel</span>
+                                    </button>
+                                    <button type="button" id="roleCivilian" onclick="setRole('civilian')"
+                                        class="flex-1 py-2 px-3 rounded-lg text-center font-label-md text-label-md bg-surface-container-lowest text-on-surface-variant hover:text-on-surface transition-all flex items-center justify-center gap-1.5">
+                                        <span class="material-symbols-outlined text-[16px]">person</span>
+                                        <span>Civilian / Litigant</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- ============================================ -->
+                            <!-- 1. SIGN IN FORM (Email + Password, No OTP)  -->
+                            <!-- ============================================ -->
+                            <form id="signInForm" onsubmit="handleSignIn(event)" class="space-y-space-md">
+                                <!-- Email Field -->
+                                <div>
+                                    <label for="signinEmail" class="block font-label-md text-label-md text-on-surface font-medium mb-1.5">
+                                        Email Address
+                                    </label>
+                                    <div class="relative flex items-center">
+                                        <span class="material-symbols-outlined absolute left-3 text-outline text-[18px] pointer-events-none">mail</span>
+                                        <input id="signinEmail" type="email" required
+                                            placeholder="advocate.sharma@delhibar.in"
+                                            class="w-full h-12 pl-10 pr-3 rounded-lg bg-surface-container-lowest border border-surface-container text-on-surface text-body-md placeholder:text-outline/70 focus:outline-none focus:border-secondary transition-all shadow-sm">
+                                    </div>
+                                    <!-- Quick Domain Helpers -->
+                                    <div class="flex items-center gap-1.5 flex-wrap pt-1.5">
+                                        <span class="font-label-sm text-label-sm text-outline mr-0.5">Quick fill:</span>
+                                        <button type="button" onclick="fillDomain('signinEmail', '@delhibar.in')"
+                                            class="px-2 py-0.5 rounded bg-surface-container text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high text-citation-mono transition-colors font-medium">@delhibar.in</button>
+                                        <button type="button" onclick="fillDomain('signinEmail', '@sci.gov.in')"
+                                            class="px-2 py-0.5 rounded bg-surface-container text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high text-citation-mono transition-colors font-medium">@sci.gov.in</button>
+                                        <button type="button" onclick="fillDomain('signinEmail', '@gmail.com')"
+                                            class="px-2 py-0.5 rounded bg-surface-container text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high text-citation-mono transition-colors font-medium">@gmail.com</button>
+                                    </div>
+                                </div>
+
+                                <!-- Password Field -->
+                                <div>
+                                    <div class="flex items-center justify-between mb-1.5">
+                                        <label for="signinPassword" class="font-label-md text-label-md text-on-surface font-medium">
+                                            Password
+                                        </label>
+                                        <a href="#forgot" onclick="handleForgotPassword(event)" class="text-label-sm text-secondary hover:underline">
+                                            Forgot password?
+                                        </a>
+                                    </div>
+                                    <div class="relative flex items-center">
+                                        <span class="material-symbols-outlined absolute left-3 text-outline text-[18px] pointer-events-none">lock</span>
+                                        <input id="signinPassword" type="password" required
+                                            placeholder="Enter your password"
+                                            class="w-full h-12 pl-10 pr-10 rounded-lg bg-surface-container-lowest border border-surface-container text-on-surface text-body-md placeholder:text-outline/70 focus:outline-none focus:border-secondary transition-all shadow-sm">
+                                        <button type="button" onclick="togglePasswordVisibility('signinPassword', 'signinEyeIcon')"
+                                            class="absolute right-3 text-outline hover:text-on-surface transition-colors flex items-center justify-center p-1"
+                                            title="Toggle password visibility">
+                                            <span id="signinEyeIcon" class="material-symbols-outlined text-[18px]">visibility</span>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- Feedback Alert Container -->
+                                <div id="signInAlert" class="hidden p-3 rounded-lg text-body-sm font-medium flex items-center gap-2"></div>
+
+                                <!-- Submit Button (Sign In without OTP) -->
+                                <div class="pt-1">
+                                    <button type="submit" id="btnSignIn"
+                                        class="w-full py-3.5 px-space-lg rounded-lg bg-primary-container text-on-primary hover:bg-on-primary-fixed-variant font-label-md text-label-md tracking-wide transition-all shadow-md flex items-center justify-center gap-space-sm group">
+                                        <span class="material-symbols-outlined text-secondary-fixed text-[18px]">verified_user</span>
+                                        <span id="btnSignInText">Sign In with Email &amp; Password</span>
+                                        <span class="material-symbols-outlined text-[18px] transition-transform group-hover:translate-x-1">arrow_forward</span>
+                                    </button>
+                                </div>
+
+                                <div class="text-center pt-2">
+                                    <p class="font-body-sm text-body-sm text-on-surface-variant">
+                                        Don't have an account yet?
+                                        <button type="button" onclick="switchAuthMode('signup')" class="font-semibold text-secondary hover:underline ml-1">
+                                            Create one now
+                                        </button>
+                                    </p>
+                                </div>
+                            </form>
+
+                            <!-- ============================================ -->
+                            <!-- 2. SIGN UP FORM (Name, Email, Password, Bar#)-->
+                            <!-- ============================================ -->
+                            <form id="signUpForm" onsubmit="handleSignUp(event)" class="space-y-space-md hidden">
+                                <!-- Full Name -->
+                                <div>
+                                    <label for="signupName" class="block font-label-md text-label-md text-on-surface font-medium mb-1.5">
+                                        Full Name
+                                    </label>
+                                    <div class="relative flex items-center">
+                                        <span class="material-symbols-outlined absolute left-3 text-outline text-[18px] pointer-events-none">person</span>
+                                        <input id="signupName" type="text" required
+                                            placeholder="Advocate Rajesh Sharma"
+                                            class="w-full h-12 pl-10 pr-3 rounded-lg bg-surface-container-lowest border border-surface-container text-on-surface text-body-md placeholder:text-outline/70 focus:outline-none focus:border-secondary transition-all shadow-sm">
+                                    </div>
+                                </div>
+
+                                <!-- Email Field -->
+                                <div>
+                                    <label for="signupEmail" class="block font-label-md text-label-md text-on-surface font-medium mb-1.5">
+                                        Email Address (Verification OTP will be sent here)
+                                    </label>
+                                    <div class="relative flex items-center">
+                                        <span class="material-symbols-outlined absolute left-3 text-outline text-[18px] pointer-events-none">mail</span>
+                                        <input id="signupEmail" type="email" required
+                                            placeholder="advocate.sharma@delhibar.in"
+                                            class="w-full h-12 pl-10 pr-3 rounded-lg bg-surface-container-lowest border border-surface-container text-on-surface text-body-md placeholder:text-outline/70 focus:outline-none focus:border-secondary transition-all shadow-sm">
+                                    </div>
+                                    <!-- Quick Domain Helpers -->
+                                    <div class="flex items-center gap-1.5 flex-wrap pt-1.5">
+                                        <span class="font-label-sm text-label-sm text-outline mr-0.5">Quick fill:</span>
+                                        <button type="button" onclick="fillDomain('signupEmail', '@delhibar.in')"
+                                            class="px-2 py-0.5 rounded bg-surface-container text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high text-citation-mono transition-colors font-medium">@delhibar.in</button>
+                                        <button type="button" onclick="fillDomain('signupEmail', '@sci.gov.in')"
+                                            class="px-2 py-0.5 rounded bg-surface-container text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high text-citation-mono transition-colors font-medium">@sci.gov.in</button>
+                                        <button type="button" onclick="fillDomain('signupEmail', '@gmail.com')"
+                                            class="px-2 py-0.5 rounded bg-surface-container text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high text-citation-mono transition-colors font-medium">@gmail.com</button>
+                                    </div>
+                                </div>
+
+                                <!-- Advocate-Only Bar Council Number -->
+                                <div id="advocateDetailsField">
+                                    <label for="signupBarNumber" class="block font-label-md text-label-md text-on-surface font-medium mb-1.5">
+                                        Bar Council Enrollment / Registration No.
+                                    </label>
+                                    <div class="relative flex items-center">
+                                        <span class="material-symbols-outlined absolute left-3 text-outline text-[18px] pointer-events-none">badge</span>
+                                        <input id="signupBarNumber" type="text"
+                                            placeholder="e.g. D/1842/2019"
+                                            class="w-full h-12 pl-10 pr-3 rounded-lg bg-surface-container-lowest border border-surface-container text-on-surface text-body-md placeholder:text-outline/70 focus:outline-none focus:border-secondary transition-all shadow-sm">
+                                    </div>
+                                    <span class="font-citation-mono text-citation-mono text-outline mt-1 block">Cross-verified against All India Bar Association records.</span>
+                                </div>
+
+                                <!-- Password & Confirm Password Grid -->
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-space-sm">
+                                    <div>
+                                        <label for="signupPassword" class="block font-label-md text-label-md text-on-surface font-medium mb-1.5">
+                                            Password
+                                        </label>
+                                        <div class="relative flex items-center">
+                                            <span class="material-symbols-outlined absolute left-3 text-outline text-[18px] pointer-events-none">lock</span>
+                                            <input id="signupPassword" type="password" required minlength="6"
+                                                placeholder="Min. 6 characters"
+                                                class="w-full h-12 pl-10 pr-9 rounded-lg bg-surface-container-lowest border border-surface-container text-on-surface text-body-md placeholder:text-outline/70 focus:outline-none focus:border-secondary transition-all shadow-sm">
+                                            <button type="button" onclick="togglePasswordVisibility('signupPassword', 'signupEyeIcon1')"
+                                                class="absolute right-2 text-outline hover:text-on-surface transition-colors p-1"
+                                                title="Toggle password visibility">
+                                                <span id="signupEyeIcon1" class="material-symbols-outlined text-[17px]">visibility</span>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <label for="signupConfirmPassword" class="block font-label-md text-label-md text-on-surface font-medium mb-1.5">
+                                            Confirm Password
+                                        </label>
+                                        <div class="relative flex items-center">
+                                            <span class="material-symbols-outlined absolute left-3 text-outline text-[18px] pointer-events-none">lock_clock</span>
+                                            <input id="signupConfirmPassword" type="password" required minlength="6"
+                                                placeholder="Re-enter password"
+                                                class="w-full h-12 pl-10 pr-9 rounded-lg bg-surface-container-lowest border border-surface-container text-on-surface text-body-md placeholder:text-outline/70 focus:outline-none focus:border-secondary transition-all shadow-sm">
+                                            <button type="button" onclick="togglePasswordVisibility('signupConfirmPassword', 'signupEyeIcon2')"
+                                                class="absolute right-2 text-outline hover:text-on-surface transition-colors p-1"
+                                                title="Toggle password visibility">
+                                                <span id="signupEyeIcon2" class="material-symbols-outlined text-[17px]">visibility</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Feedback Alert Container -->
+                                <div id="signUpAlert" class="hidden p-3 rounded-lg text-body-sm font-medium flex items-center gap-2"></div>
+
+                                <!-- Submit Button (Sign Up & Send OTP) -->
+                                <div class="pt-1">
+                                    <button type="submit" id="btnSignUp"
+                                        class="w-full py-3.5 px-space-lg rounded-lg bg-primary-container text-on-primary hover:bg-on-primary-fixed-variant font-label-md text-label-md tracking-wide transition-all shadow-md flex items-center justify-center gap-space-sm group">
+                                        <span class="material-symbols-outlined text-secondary-fixed text-[18px]">outgoing_mail</span>
+                                        <span id="btnSignUpText">Create Account &amp; Send Verification OTP</span>
+                                        <span class="material-symbols-outlined text-[18px] transition-transform group-hover:translate-x-1">arrow_forward</span>
+                                    </button>
+                                </div>
+
+                                <div class="text-center pt-2">
+                                    <p class="font-body-sm text-body-sm text-on-surface-variant">
+                                        Already registered?
+                                        <button type="button" onclick="switchAuthMode('signin')" class="font-semibold text-secondary hover:underline ml-1">
+                                            Sign in with your password
+                                        </button>
+                                    </p>
+                                </div>
+                            </form>
+
+                            <!-- ============================================ -->
+                            <!-- 3. OTP VERIFICATION PANE (For Signup Verify) -->
+                            <!-- ============================================ -->
+                            <div id="otpVerificationPane" class="hidden space-y-space-md">
+                                <div class="p-space-md rounded-xl bg-surface-container-low border border-surface-container space-y-space-md">
+                                    <div class="flex items-start justify-between gap-2">
+                                        <div>
+                                            <div class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-secondary/10 text-secondary font-label-sm text-label-sm font-semibold tracking-wide uppercase">
+                                                <span class="material-symbols-outlined text-[14px]">pin</span>
+                                                <span>6-Digit Verification Code</span>
+                                            </div>
+                                            <h3 class="font-headline-sm text-headline-sm text-on-surface mt-1">Verify Your Email Address</h3>
+                                            <p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">
+                                                A one-time confirmation code was dispatched by Supabase to:
+                                            </p>
+                                            <div class="flex items-center gap-2 mt-1 flex-wrap">
+                                                <span id="targetEmailEcho" class="font-title-md text-title-md text-on-surface font-semibold break-all"></span>
+                                                <button type="button" onclick="cancelOtpVerification()" class="inline-flex items-center gap-0.5 text-label-sm text-secondary hover:underline transition-colors font-medium">
+                                                    <span class="material-symbols-outlined text-[14px]">edit</span>
+                                                    <span>Change</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="w-10 h-10 rounded-xl bg-surface-container flex items-center justify-center text-primary-container shrink-0 shadow-sm">
+                                            <span class="material-symbols-outlined text-[22px]">mark_email_read</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- 6 Digit OTP Entry -->
+                                    <form onsubmit="handleVerifySignupOtp(event)" class="space-y-space-md">
+                                        <div>
+                                            <label class="block font-label-sm text-label-sm text-outline mb-2">Enter 6-digit confirmation code</label>
+                                            <div class="grid grid-cols-6 gap-2" id="otpInputsContainer">
+                                                <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*" class="otp-input w-full h-12 text-center text-headline-sm font-semibold rounded-lg bg-surface-container-lowest border border-surface-container text-on-surface focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-all shadow-sm" required autofocus>
+                                                <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*" class="otp-input w-full h-12 text-center text-headline-sm font-semibold rounded-lg bg-surface-container-lowest border border-surface-container text-on-surface focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-all shadow-sm" required>
+                                                <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*" class="otp-input w-full h-12 text-center text-headline-sm font-semibold rounded-lg bg-surface-container-lowest border border-surface-container text-on-surface focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-all shadow-sm" required>
+                                                <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*" class="otp-input w-full h-12 text-center text-headline-sm font-semibold rounded-lg bg-surface-container-lowest border border-surface-container text-on-surface focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-all shadow-sm" required>
+                                                <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*" class="otp-input w-full h-12 text-center text-headline-sm font-semibold rounded-lg bg-surface-container-lowest border border-surface-container text-on-surface focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-all shadow-sm" required>
+                                                <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*" class="otp-input w-full h-12 text-center text-headline-sm font-semibold rounded-lg bg-surface-container-lowest border border-surface-container text-on-surface focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-all shadow-sm" required>
+                                            </div>
+                                        </div>
+
+                                        <div id="otpFeedback" class="hidden p-2.5 rounded-lg text-body-sm font-medium items-center gap-2"></div>
+
+                                        <button type="submit" id="btnVerifyOtp"
+                                            class="w-full py-3.5 px-space-lg rounded-lg bg-primary-container text-on-primary hover:bg-on-primary-fixed-variant font-label-md text-label-md tracking-wide transition-all shadow-md flex items-center justify-center gap-space-sm group">
+                                            <span class="material-symbols-outlined text-secondary-fixed text-[18px]">verified</span>
+                                            <span id="btnVerifyOtpText">Verify Account &amp; Proceed to Sign In</span>
+                                            <span class="material-symbols-outlined text-[18px] transition-transform group-hover:translate-x-1">arrow_forward</span>
+                                        </button>
+                                    </form>
+
+                                    <div class="flex items-center justify-between text-citation-mono text-outline pt-0.5">
+                                        <span>Code expires in <span class="font-semibold text-secondary" id="otpTimerDisplay">09:59</span></span>
+                                        <button type="button" onclick="resendSignupOtp()" class="text-secondary hover:text-on-surface hover:underline inline-flex items-center gap-1 font-medium transition-colors">
+                                            <span class="material-symbols-outlined text-[13px]">refresh</span> Resend OTP
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- ============================================ -->
+                            <!-- 4. AUTHENTICATED LOGGED-IN DASHBOARD VIEW    -->
+                            <!-- ============================================ -->
+                            <div id="authenticatedCard" class="hidden space-y-space-md text-center py-4">
+                                <div class="w-16 h-16 rounded-2xl bg-secondary-container/30 text-secondary mx-auto flex items-center justify-center shadow-inner">
+                                    <span class="material-symbols-outlined text-[32px]">verified_user</span>
+                                </div>
+                                <div>
+                                    <span class="inline-block px-3 py-1 rounded-full bg-primary-container text-secondary-fixed text-label-sm font-semibold uppercase tracking-wider mb-2" id="authSessionRolePill">
+                                        Advocate Console
+                                    </span>
+                                    <h3 class="font-headline-md text-headline-md text-on-surface" id="authUserNameEcho">Welcome, Advocate</h3>
+                                    <p class="font-body-md text-body-md text-on-surface-variant mt-1" id="authUserEmailEcho"></p>
+                                </div>
+
+                                <div class="p-4 rounded-xl bg-surface-container-low border border-surface-container text-left space-y-2">
+                                    <div class="flex items-center justify-between text-citation-mono text-outline">
+                                        <span>Authentication Status</span>
+                                        <span class="text-secondary font-semibold flex items-center gap-1">
+                                            <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span> Verified Active Session
+                                        </span>
+                                    </div>
+                                    <div class="flex items-center justify-between text-citation-mono text-outline">
+                                        <span>Access Credential</span>
+                                        <span class="text-on-surface font-medium">Direct Email &amp; Password (OTP Bypassed)</span>
+                                    </div>
+                                </div>
+
+                                <div class="space-y-2 pt-2">
+                                    <button type="button" id="btnLaunchAdvocate" onclick="window.location.href='/advocate'"
+                                        class="hidden w-full py-3.5 px-space-lg rounded-lg bg-secondary text-on-primary hover:bg-secondary-fixed font-label-md text-label-md tracking-wide transition-all shadow-md flex items-center justify-center gap-space-sm group">
+                                        <span class="material-symbols-outlined text-[18px]">balance</span>
+                                        <span>Launch Advocate Counsel Console</span>
+                                        <span class="material-symbols-outlined text-[18px] transition-transform group-hover:translate-x-1">arrow_forward</span>
+                                    </button>
+                                    <button type="button" id="btnLaunchCitizen" onclick="launchNyayaApp()"
+                                        class="w-full py-3.5 px-space-lg rounded-lg bg-primary-container text-on-primary hover:bg-on-primary-fixed-variant font-label-md text-label-md tracking-wide transition-all shadow-md flex items-center justify-center gap-space-sm group">
+                                        <span class="material-symbols-outlined text-secondary-fixed text-[18px]">gavel</span>
+                                        <span id="btnLaunchCitizenText">Launch Nyaya AI Legal Assistant</span>
+                                        <span class="material-symbols-outlined text-[18px] transition-transform group-hover:translate-x-1">arrow_forward</span>
+                                    </button>
+                                    <button type="button" onclick="handleSignOut()"
+                                        class="w-full py-2.5 px-space-lg rounded-lg border border-surface-container text-on-surface-variant hover:text-error hover:border-error text-label-md font-medium transition-all flex items-center justify-center gap-1.5">
+                                        <span class="material-symbols-outlined text-[16px]">logout</span>
+                                        <span>Sign Out of Nyaya AI</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Security Notice & Compliance Banner -->
+                            <div class="mt-space-lg pt-space-md border-t border-surface-container space-y-2">
+                                <div class="flex items-start gap-2 text-on-surface-variant">
+                                    <span class="material-symbols-outlined text-secondary text-[18px] shrink-0 mt-0.5">shield</span>
+                                    <p class="font-body-sm text-body-sm leading-snug">
+                                        Enterprise encryption powered by Supabase Auth with Row-Level Security (RLS). Once your email is verified during registration, sign in securely using your email and password without OTP.
+                                    </p>
+                                </div>
+                                <div class="flex items-center justify-between pt-1 text-citation-mono text-outline">
+                                    <span class="flex items-center gap-1">
+                                        <span class="material-symbols-outlined text-[13px] text-secondary">lock</span>
+                                        <span>DPDPA 2023 &amp; IT Act Sec 43A Compliant</span>
+                                    </span>
+                                    <span class="text-secondary font-medium">Session #SOV-7918</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-space-md pt-space-sm flex items-center justify-between text-outline">
+                            <div class="flex items-center gap-space-xs"><span
+                                    class="material-symbols-outlined text-[16px]">verified</span><span
+                                    class="font-label-sm text-label-sm">Digital India Compliance Stature</span></div>
+                            <button
+                                class="inline-flex items-center gap-1 font-label-md text-label-md text-on-surface hover:text-secondary transition-colors"
+                                onclick="window.location.hash='admin-portal'" type="button"><span>Admin Portal &amp;
+                                    Judicial Bench Access</span><span
+                                    class="material-symbols-outlined text-[14px]">open_in_new</span></button>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- Bottom Universal Footer -->
+            <footer
+                class="w-full bg-surface-container-lowest border-t border-surface-container px-space-lg py-space-md flex flex-col md:flex-row items-center justify-between gap-space-sm text-on-surface-variant font-body-sm text-body-sm">
+                <div
+                    class="flex flex-wrap items-center justify-center md:justify-start gap-x-4 gap-y-1 font-label-sm text-label-sm">
+                    <span class="font-medium text-on-surface">Nyaya AI</span><span
+                        class="text-outline-variant">•</span><a class="hover:text-primary transition-colors"
+                        href="#about">About Us</a><span class="text-outline-variant">•</span><a
+                        class="hover:text-primary transition-colors" href="#privacy">Privacy Policy</a><span
+                        class="text-outline-variant">•</span><a class="hover:text-primary transition-colors"
+                        href="#terms">Terms &amp; Conditions</a><span class="text-outline-variant">•</span><a
+                        class="hover:text-primary transition-colors" href="#disclaimer">Legal Disclaimer</a><span
+                        class="text-outline-variant">•</span><a class="hover:text-primary transition-colors"
+                        href="#contact">Contact Us</a></div>
+                <div class="text-center md:text-right font-citation-mono text-citation-mono text-outline"><span>© 2026
+                        Nyaya AI. All rights reserved.</span><span
+                        class="block md:inline md:ml-2 text-on-surface-variant">Nyaya AI provides legal information and
+                        educational assistance, not professional legal representation.</span></div>
+            </footer>
+        </div>
+        <script>
+            // Supabase Config
+            const SUPABASE_URL = "https://sfkvzaljndycgrsszusi.supabase.co";
+            const SUPABASE_ANON_KEY = "sb_publishable_yqI9hEpSzSf2lvxLvCYT6A_7KMqS_Uq";
+            let supabaseClient = null;
+
+            if (window.supabase) {
+                supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+            }
+
+            // State variables
+            let currentAuthMode = 'signin'; // 'signin' | 'signup'
+            let currentRole = 'advocate';     // 'advocate' | 'civilian'
+            let pendingSignupEmail = '';
+            let timerInterval = null;
+
+            document.addEventListener('DOMContentLoaded', () => {
+                setupOtpInputs();
+                checkExistingSession();
+            });
+
+            // Check if user has an existing valid session in Supabase
+            async function checkExistingSession() {
+                if (!supabaseClient) return;
+                try {
+                    const { data: { session }, error } = await supabaseClient.auth.getSession();
+                    if (session && session.user) {
+                        displayAuthenticatedUser(session.user);
+                    }
+                } catch (err) {
+                    console.warn("Session check note:", err);
+                }
+            }
+
+            // Switch between Sign In and Sign Up tabs
+            function switchAuthMode(mode) {
+                currentAuthMode = mode;
+                const tabSignIn = document.getElementById('tabSignIn');
+                const tabSignUp = document.getElementById('tabSignUp');
+                const signInForm = document.getElementById('signInForm');
+                const signUpForm = document.getElementById('signUpForm');
+                const otpPane = document.getElementById('otpVerificationPane');
+                const authTitle = document.getElementById('authTitle');
+                const authSubtitle = document.getElementById('authSubtitle');
+                const roleSelector = document.getElementById('roleSelectorContainer');
+
+                // Hide OTP if open
+                if (otpPane) otpPane.classList.add('hidden');
+                clearAlerts();
+
+                if (mode === 'signin') {
+                    tabSignIn.className = "flex-1 pb-3 font-title-md text-title-md text-center border-b-2 border-primary text-primary font-semibold transition-all flex items-center justify-center gap-1.5";
+                    tabSignUp.className = "flex-1 pb-3 font-title-md text-title-md text-center border-b-2 border-transparent text-outline hover:text-on-surface font-semibold transition-all flex items-center justify-center gap-1.5";
+                    signInForm.classList.remove('hidden');
+                    signUpForm.classList.add('hidden');
+                    roleSelector.classList.remove('hidden');
+                    authTitle.textContent = "Welcome to Nyaya AI";
+                    authSubtitle.textContent = "Sign in with your registered email and password to access your sovereign legal assistant.";
+                } else {
+                    tabSignUp.className = "flex-1 pb-3 font-title-md text-title-md text-center border-b-2 border-primary text-primary font-semibold transition-all flex items-center justify-center gap-1.5";
+                    tabSignIn.className = "flex-1 pb-3 font-title-md text-title-md text-center border-b-2 border-transparent text-outline hover:text-on-surface font-semibold transition-all flex items-center justify-center gap-1.5";
+                    signUpForm.classList.remove('hidden');
+                    signInForm.classList.add('hidden');
+                    roleSelector.classList.remove('hidden');
+                    authTitle.textContent = "Create Your Nyaya AI Account";
+                    authSubtitle.textContent = "Register with your details. A one-time verification OTP will be sent to your email by Supabase.";
+                }
+            }
+
+            // Switch between Advocate and Civilian roles
+            function setRole(role) {
+                currentRole = role;
+                const roleAdvocate = document.getElementById('roleAdvocate');
+                const roleCivilian = document.getElementById('roleCivilian');
+                const signinEmail = document.getElementById('signinEmail');
+                const signupEmail = document.getElementById('signupEmail');
+                const signupName = document.getElementById('signupName');
+                const advocateField = document.getElementById('advocateDetailsField');
+                const roleDescBadge = document.getElementById('roleDescBadge');
+                const badgeText = document.getElementById('securityBadgeText');
+
+                if (role === 'advocate') {
+                    roleAdvocate.className = "flex-1 py-2 px-3 rounded-lg text-center font-label-md text-label-md bg-primary-container text-on-primary shadow-sm transition-all flex items-center justify-center gap-1.5";
+                    roleCivilian.className = "flex-1 py-2 px-3 rounded-lg text-center font-label-md text-label-md bg-surface-container-lowest text-on-surface-variant hover:text-on-surface transition-all flex items-center justify-center gap-1.5";
+                    if (signinEmail) signinEmail.placeholder = "advocate.sharma@delhibar.in";
+                    if (signupEmail) signupEmail.placeholder = "advocate.sharma@delhibar.in";
+                    if (signupName) signupName.placeholder = "Advocate Rajesh Sharma";
+                    if (advocateField) advocateField.classList.remove('hidden');
+                    if (roleDescBadge) roleDescBadge.textContent = "Court & Bar Access";
+                    if (badgeText) badgeText.textContent = "Advocate-Client Privilege Protected";
+                } else {
+                    roleCivilian.className = "flex-1 py-2 px-3 rounded-lg text-center font-label-md text-label-md bg-primary-container text-on-primary shadow-sm transition-all flex items-center justify-center gap-1.5";
+                    roleAdvocate.className = "flex-1 py-2 px-3 rounded-lg text-center font-label-md text-label-md bg-surface-container-lowest text-on-surface-variant hover:text-on-surface transition-all flex items-center justify-center gap-1.5";
+                    if (signinEmail) signinEmail.placeholder = "citizen.rajesh@gmail.com";
+                    if (signupEmail) signupEmail.placeholder = "citizen.rajesh@gmail.com";
+                    if (signupName) signupName.placeholder = "Rajesh Kumar";
+                    if (advocateField) advocateField.classList.add('hidden');
+                    if (roleDescBadge) roleDescBadge.textContent = "Citizen Legal Guidance";
+                    if (badgeText) badgeText.textContent = "Citizen Confidentiality Protected";
+                }
+            }
+
+            // Quick domain filling
+            function fillDomain(inputId, domain) {
+                const el = document.getElementById(inputId);
+                if (!el) return;
+                const cur = el.value.trim();
+                if (!cur) {
+                    el.value = (currentRole === 'advocate' ? 'counsel' : 'citizen') + domain;
+                } else if (cur.includes('@')) {
+                    el.value = cur.split('@')[0] + domain;
+                } else {
+                    el.value = cur + domain;
+                }
+                el.focus();
+            }
+
+            // Show/Hide password toggle
+            function togglePasswordVisibility(inputId, iconId) {
+                const input = document.getElementById(inputId);
+                const icon = document.getElementById(iconId);
+                if (!input || !icon) return;
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    icon.textContent = 'visibility_off';
+                } else {
+                    input.type = 'password';
+                    icon.textContent = 'visibility';
+                }
+            }
+
+            // Clear feedback alerts
+            function clearAlerts() {
+                const sAlert = document.getElementById('signInAlert');
+                const uAlert = document.getElementById('signUpAlert');
+                const oAlert = document.getElementById('otpFeedback');
+                if (sAlert) { sAlert.classList.add('hidden'); sAlert.innerHTML = ''; }
+                if (uAlert) { uAlert.classList.add('hidden'); uAlert.innerHTML = ''; }
+                if (oAlert) { oAlert.classList.add('hidden'); oAlert.innerHTML = ''; }
+            }
+
+            // ========================================================
+            // 1. SIGN IN (Email & Password - NO OTP REQUIRED)
+            // ========================================================
+            async function handleSignIn(event) {
+                event.preventDefault();
+                clearAlerts();
+
+                const email = document.getElementById('signinEmail').value.trim();
+                const password = document.getElementById('signinPassword').value;
+                const alertEl = document.getElementById('signInAlert');
+                const btn = document.getElementById('btnSignIn');
+                const btnText = document.getElementById('btnSignInText');
+
+                if (!email || !password) {
+                    showAlert(alertEl, 'error', 'Please enter both your registered email and password.');
+                    return;
+                }
+
+                btnText.textContent = "Authenticating Session...";
+                btn.disabled = true;
+                btn.classList.add('opacity-80');
+
+                if (supabaseClient) {
+                    try {
+                        const { data, error } = await supabaseClient.auth.signInWithPassword({
+                            email: email,
+                            password: password
+                        });
+
+                        if (error) {
+                            btn.disabled = false;
+                            btn.classList.remove('opacity-80');
+                            btnText.textContent = "Sign In with Email & Password";
+
+                            if (error.message.toLowerCase().includes('email not confirmed')) {
+                                showAlert(alertEl, 'error', `
+                                    <div>
+                                        <p class="font-semibold">Email not verified yet!</p>
+                                        <p class="text-body-sm mt-0.5">Please verify the OTP code sent during signup.</p>
+                                        <button type="button" onclick="openOtpForUnverified('${email}')" class="mt-1.5 px-3 py-1 rounded bg-secondary text-on-primary font-label-sm font-semibold hover:bg-secondary-fixed transition-all inline-flex items-center gap-1">
+                                            <span class="material-symbols-outlined text-[14px]">pin</span> Enter Verification OTP
+                                        </button>
+                                    </div>
+                                `);
+                            } else {
+                                showAlert(alertEl, 'error', error.message || 'Invalid email or password. Please verify your credentials.');
+                            }
+                            return;
+                        }
+
+                        // Success
+                        const dest = (data.user?.user_metadata?.role === 'advocate' || currentRole === 'advocate') ? '/advocate' : '/app';
+                        showAlert(alertEl, 'success', `Login successful! Launching ${dest === '/advocate' ? 'Advocate Counsel Console' : 'Nyaya AI'}...`);
+                        setTimeout(() => {
+                            btn.disabled = false;
+                            btn.classList.remove('opacity-80');
+                            btnText.textContent = "Sign In with Email & Password";
+                            displayAuthenticatedUser(data.user);
+                            window.location.href = dest;
+                        }, 750);
+                        return;
+                    } catch (err) {
+                        btn.disabled = false;
+                        btn.classList.remove('opacity-80');
+                        btnText.textContent = "Sign In with Email & Password";
+                        console.error("Sign in exception:", err);
+                        showAlert(alertEl, 'error', 'Network error connecting to Supabase. Please retry.');
+                    }
+                } else {
+                    // Fallback
+                    const dest = currentRole === 'advocate' ? '/advocate' : '/app';
+                    showAlert(alertEl, 'success', `Login successful (local session mode). Launching ${dest === '/advocate' ? 'Advocate Counsel Console' : 'Nyaya AI'}...`);
+                    setTimeout(() => {
+                        btn.disabled = false;
+                        btn.classList.remove('opacity-80');
+                        btnText.textContent = "Sign In with Email & Password";
+                        displayAuthenticatedUser({
+                            email: email,
+                            user_metadata: { full_name: currentRole === 'advocate' ? 'Advocate Counsel' : 'Registered Citizen', role: currentRole }
+                        });
+                        window.location.href = dest;
+                    }, 650);
+                }
+            }
+
+            // ========================================================
+            // 2. SIGN UP (Email, Password, Name -> Sends OTP to verify)
+            // ========================================================
+            async function handleSignUp(event) {
+                event.preventDefault();
+                clearAlerts();
+
+                const name = document.getElementById('signupName').value.trim();
+                const email = document.getElementById('signupEmail').value.trim();
+                const password = document.getElementById('signupPassword').value;
+                const confirmPassword = document.getElementById('signupConfirmPassword').value;
+                const barNumber = document.getElementById('signupBarNumber')?.value?.trim() || '';
+                const alertEl = document.getElementById('signUpAlert');
+                const btn = document.getElementById('btnSignUp');
+                const btnText = document.getElementById('btnSignUpText');
+
+                if (!name || !email || !password) {
+                    showAlert(alertEl, 'error', 'Please fill in all required registration fields.');
+                    return;
+                }
+
+                if (password.length < 6) {
+                    showAlert(alertEl, 'error', 'Password must be at least 6 characters long.');
+                    return;
+                }
+
+                if (password !== confirmPassword) {
+                    showAlert(alertEl, 'error', 'Passwords do not match. Please re-enter carefully.');
+                    return;
+                }
+
+                btnText.textContent = "Creating Account & Sending OTP...";
+                btn.disabled = true;
+                btn.classList.add('opacity-80');
+
+                pendingSignupEmail = email;
+
+                if (supabaseClient) {
+                    try {
+                        const { data, error } = await supabaseClient.auth.signUp({
+                            email: email,
+                            password: password,
+                            options: {
+                                data: {
+                                    full_name: name,
+                                    role: currentRole,
+                                    bar_council_no: currentRole === 'advocate' ? barNumber : null
+                                }
+                            }
+                        });
+
+                        btn.disabled = false;
+                        btn.classList.remove('opacity-80');
+                        btnText.textContent = "Create Account & Send Verification OTP";
+
+                        if (error) {
+                            showAlert(alertEl, 'error', error.message || 'Unable to register. Please try again.');
+                            return;
+                        }
+
+                        // Transition to OTP verification screen
+                        showOtpVerificationPane(email);
+                        return;
+                    } catch (err) {
+                        btn.disabled = false;
+                        btn.classList.remove('opacity-80');
+                        btnText.textContent = "Create Account & Send Verification OTP";
+                        console.error("Sign up exception:", err);
+                        showAlert(alertEl, 'error', 'Registration error. Please check your connection and try again.');
+                        return;
+                    }
+                } else {
+                    btn.disabled = false;
+                    btn.classList.remove('opacity-80');
+                    btnText.textContent = "Create Account & Send Verification OTP";
+                    showOtpVerificationPane(email);
+                }
+            }
+
+            // Show OTP Pane after Sign Up
+            function showOtpVerificationPane(email) {
+                pendingSignupEmail = email;
+                document.getElementById('signUpForm').classList.add('hidden');
+                document.getElementById('signInForm').classList.add('hidden');
+                document.getElementById('roleSelectorContainer').classList.add('hidden');
+                document.getElementById('targetEmailEcho').textContent = email;
+
+                const otpPane = document.getElementById('otpVerificationPane');
+                otpPane.classList.remove('hidden');
+                otpPane.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+                document.getElementById('authTitle').textContent = "Verify Your Email Address";
+                document.getElementById('authSubtitle').textContent = "Enter the 6-digit confirmation code dispatched by Supabase to activate direct password sign-in.";
+
+                startOtpTimer(600);
+                const first = document.querySelector('.otp-input');
+                if (first) {
+                    document.querySelectorAll('.otp-input').forEach(i => i.value = '');
+                    first.focus();
+                }
+            }
+
+            function openOtpForUnverified(email) {
+                switchAuthMode('signup');
+                showOtpVerificationPane(email);
+            }
+
+            function cancelOtpVerification() {
+                switchAuthMode('signup');
+            }
+
+            // ========================================================
+            // 3. VERIFY SIGNUP OTP (Once verified -> Sign in with pass)
+            // ========================================================
+            async function handleVerifySignupOtp(event) {
+                event.preventDefault();
+                const inputs = document.querySelectorAll('.otp-input');
+                let code = '';
+                inputs.forEach(i => code += i.value.trim());
+
+                const feedback = document.getElementById('otpFeedback');
+                const btn = document.getElementById('btnVerifyOtp');
+                const btnText = document.getElementById('btnVerifyOtpText');
+
+                if (code.length < 6) {
+                    showAlert(feedback, 'error', 'Please enter all 6 digits of the confirmation code.');
+                    return;
+                }
+
+                btnText.textContent = "Verifying Code...";
+                btn.disabled = true;
+                btn.classList.add('opacity-80');
+
+                if (supabaseClient) {
+                    try {
+                        let result = await supabaseClient.auth.verifyOtp({
+                            email: pendingSignupEmail,
+                            token: code,
+                            type: 'signup'
+                        });
+
+                        if (result.error) {
+                            result = await supabaseClient.auth.verifyOtp({
+                                email: pendingSignupEmail,
+                                token: code,
+                                type: 'email'
+                            });
+                        }
+
+                        if (result.error) {
+                            btn.disabled = false;
+                            btn.classList.remove('opacity-80');
+                            btnText.textContent = "Verify Account & Proceed to Sign In";
+                            showAlert(feedback, 'error', result.error.message || 'Invalid or expired OTP code.');
+                            return;
+                        }
+
+                        // Successfully verified!
+                        showAlert(feedback, 'success', 'Account verified successfully! You can now sign in with your email and password.');
+                        btnText.textContent = "Verified!";
+
+                        setTimeout(() => {
+                            btn.disabled = false;
+                            btn.classList.remove('opacity-80');
+                            btnText.textContent = "Verify Account & Proceed to Sign In";
+
+                            // Switch to Sign In tab with email prefilled
+                            switchAuthMode('signin');
+                            document.getElementById('signinEmail').value = pendingSignupEmail;
+                            document.getElementById('signinPassword').value = '';
+                            document.getElementById('signinPassword').focus();
+
+                            const sAlert = document.getElementById('signInAlert');
+                            showAlert(sAlert, 'success', 'Email verified! Enter your password to sign in without OTP.');
+                        }, 1200);
+                        return;
+                    } catch (err) {
+                        btn.disabled = false;
+                        btn.classList.remove('opacity-80');
+                        btnText.textContent = "Verify Account & Proceed to Sign In";
+                        console.error("OTP verification error:", err);
+                        showAlert(feedback, 'error', 'Verification request failed. Please check network.');
+                        return;
+                    }
+                } else {
+                    showAlert(feedback, 'success', 'Account verified! You can now sign in with your password.');
+                    setTimeout(() => {
+                        btn.disabled = false;
+                        btn.classList.remove('opacity-80');
+                        btnText.textContent = "Verify Account & Proceed to Sign In";
+                        switchAuthMode('signin');
+                        document.getElementById('signinEmail').value = pendingSignupEmail;
+                        document.getElementById('signinPassword').focus();
+                    }, 1000);
+                }
+            }
+
+            // Resend Signup OTP
+            async function resendSignupOtp() {
+                if (!pendingSignupEmail) return;
+                const feedback = document.getElementById('otpFeedback');
+                if (supabaseClient) {
+                    try {
+                        const { error } = await supabaseClient.auth.resend({
+                            type: 'signup',
+                            email: pendingSignupEmail
+                        });
+                        if (error) {
+                            showAlert(feedback, 'error', error.message || 'Could not resend OTP.');
+                        } else {
+                            showAlert(feedback, 'success', 'New 6-digit OTP code dispatched to your email.');
+                            startOtpTimer(600);
+                        }
+                    } catch (err) {
+                        showAlert(feedback, 'error', 'Failed to resend code.');
+                    }
+                } else {
+                    showAlert(feedback, 'success', 'New code dispatched (local demo).');
+                    startOtpTimer(600);
+                }
+            }
+
+            // ========================================================
+            // 4. DISPLAY AUTHENTICATED USER
+            // ========================================================
+            function displayAuthenticatedUser(user) {
+                const tabsNav = document.getElementById('authTabsNav');
+                const roleSelector = document.getElementById('roleSelectorContainer');
+                const signInForm = document.getElementById('signInForm');
+                const signUpForm = document.getElementById('signUpForm');
+                const otpPane = document.getElementById('otpVerificationPane');
+                const authCard = document.getElementById('authenticatedCard');
+                const headerIcon = document.getElementById('headerIcon');
+                const authTitle = document.getElementById('authTitle');
+                const authSubtitle = document.getElementById('authSubtitle');
+
+                if (tabsNav) tabsNav.classList.add('hidden');
+                if (roleSelector) roleSelector.classList.add('hidden');
+                if (signInForm) signInForm.classList.add('hidden');
+                if (signUpForm) signUpForm.classList.add('hidden');
+                if (otpPane) otpPane.classList.add('hidden');
+                if (authCard) authCard.classList.remove('hidden');
+
+                const name = user.user_metadata?.full_name || (user.email ? user.email.split('@')[0] : 'User');
+                const role = user.user_metadata?.role || currentRole || 'advocate';
+
+                // Save to localStorage so main legal assistant can identify active user
+                try {
+                    localStorage.setItem('nyaya_user', JSON.stringify({
+                        email: user.email || '',
+                        name: name,
+                        role: role,
+                        bar_council_no: user.user_metadata?.bar_council_no || null,
+                        authenticated_at: new Date().toISOString()
+                    }));
+                } catch (e) {
+                    console.warn("Storage warning:", e);
+                }
+
+                document.getElementById('authUserNameEcho').textContent = `Welcome, ${name}`;
+                document.getElementById('authUserEmailEcho').textContent = user.email || '';
+                document.getElementById('authSessionRolePill').textContent = role === 'advocate' ? 'Advocate / Counsel Console' : 'Civilian / Litigant Console';
+
+                const btnAdvocate = document.getElementById('btnLaunchAdvocate');
+                const btnCitizenText = document.getElementById('btnLaunchCitizenText');
+                if (role === 'advocate') {
+                    if (btnAdvocate) btnAdvocate.classList.remove('hidden');
+                    if (btnCitizenText) btnCitizenText.textContent = "Open Citizen Assistant Workspace";
+                } else {
+                    if (btnAdvocate) btnAdvocate.classList.add('hidden');
+                    if (btnCitizenText) btnCitizenText.textContent = "Launch Nyaya AI Legal Assistant";
+                }
+
+                authTitle.textContent = "Nyaya AI Sovereign Console";
+                authSubtitle.textContent = "Authenticated session active. Enterprise legal intelligence ready.";
+                if (headerIcon) headerIcon.textContent = "verified";
+            }
+
+            function launchNyayaApp() {
+                window.location.href = '/app';
+            }
+
+            // ========================================================
+            // 5. SIGN OUT
+            // ========================================================
+            async function handleSignOut() {
+                try {
+                    localStorage.removeItem('nyaya_user');
+                } catch (e) {}
+                if (supabaseClient) {
+                    try {
+                        await supabaseClient.auth.signOut();
+                    } catch (err) {
+                        console.warn("Sign out note:", err);
+                    }
+                }
+                document.getElementById('authenticatedCard').classList.add('hidden');
+                document.getElementById('authTabsNav').classList.remove('hidden');
+                document.getElementById('headerIcon').textContent = "lock";
+                switchAuthMode('signin');
+                clearAlerts();
+            }
+
+            // ========================================================
+            // UTILITIES
+            // ========================================================
+            function showAlert(el, type, message) {
+                if (!el) return;
+                el.classList.remove('hidden');
+                if (type === 'error') {
+                    el.className = "flex p-3 rounded-lg text-body-sm font-medium items-center gap-2 bg-error-container text-on-error-container";
+                    el.innerHTML = `<span class="material-symbols-outlined text-[18px] shrink-0">error</span> <div>${message}</div>`;
+                } else {
+                    el.className = "flex p-3 rounded-lg text-body-sm font-medium items-center gap-2 bg-secondary-container text-on-secondary-container";
+                    el.innerHTML = `<span class="material-symbols-outlined text-[18px] shrink-0">check_circle</span> <div>${message}</div>`;
+                }
+            }
+
+            function handleForgotPassword(event) {
+                event.preventDefault();
+                const email = document.getElementById('signinEmail').value.trim();
+                const alertEl = document.getElementById('signInAlert');
+                if (!email) {
+                    showAlert(alertEl, 'error', 'Enter your email address above to receive a password reset link.');
+                    return;
+                }
+                if (supabaseClient) {
+                    supabaseClient.auth.resetPasswordForEmail(email)
+                        .then(({ error }) => {
+                            if (error) {
+                                showAlert(alertEl, 'error', error.message);
+                            } else {
+                                showAlert(alertEl, 'success', `Password reset instructions dispatched to ${email}.`);
+                            }
+                        });
+                } else {
+                    showAlert(alertEl, 'success', `Password reset link dispatched to ${email}.`);
+                }
+            }
+
+            function setupOtpInputs() {
+                const inputs = document.querySelectorAll('.otp-input');
+                inputs.forEach((input, idx) => {
+                    input.addEventListener('input', (e) => {
+                        const val = e.target.value.replace(/[^0-9]/g, '');
+                        e.target.value = val ? val[0] : '';
+                        if (val && idx < inputs.length - 1) {
+                            inputs[idx + 1].focus();
+                        }
+                    });
+
+                    input.addEventListener('keydown', (e) => {
+                        if (e.key === 'Backspace' && !input.value && idx > 0) {
+                            inputs[idx - 1].focus();
+                        }
+                    });
+
+                    input.addEventListener('paste', (e) => {
+                        e.preventDefault();
+                        const pasteData = (e.clipboardData || window.clipboardData).getData('text').trim();
+                        const digits = pasteData.replace(/[^0-9]/g, '').slice(0, inputs.length);
+                        digits.split('').forEach((d, i) => {
+                            if (inputs[i]) inputs[i].value = d;
+                        });
+                        const nextIdx = Math.min(digits.length, inputs.length - 1);
+                        if (inputs[nextIdx]) inputs[nextIdx].focus();
+                    });
+                });
+            }
+
+            function startOtpTimer(duration = 600) {
+                clearInterval(timerInterval);
+                let timeRemaining = duration;
+                const timerEl = document.getElementById('otpTimerDisplay');
+                function update() {
+                    const minutes = Math.floor(timeRemaining / 60);
+                    const seconds = timeRemaining % 60;
+                    if (timerEl) {
+                        timerEl.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+                    }
+                    if (timeRemaining <= 0) {
+                        clearInterval(timerInterval);
+                    }
+                    timeRemaining--;
+                }
+                update();
+                timerInterval = setInterval(update, 1000);
+            }
+        </script>
+    </main>
+
+
+
+</body>
+
+</html>

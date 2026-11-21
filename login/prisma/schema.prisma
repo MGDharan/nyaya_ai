@@ -1,0 +1,44 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+// User accounts matching Nyaya AI Authentication (Advocate vs Civilian)
+enum AccountRole {
+  ADVOCATE
+  CIVILIAN
+}
+
+model Profile {
+  id             String       @id @default(uuid())
+  email          String       @unique
+  fullName       String       @map("full_name")
+  role           AccountRole  @default(CIVILIAN)
+  barCouncilNo   String?      @map("bar_council_no")
+  isVerified     Boolean      @default(false) @map("is_verified")
+  createdAt      DateTime     @default(now()) @map("created_at")
+  updatedAt      DateTime     @updatedAt @map("updated_at")
+
+  cases          LegalCase[]
+
+  @@map("profiles")
+}
+
+model LegalCase {
+  id             String       @id @default(uuid())
+  title          String
+  description    String?
+  statute        String?      // e.g. BNS, CrPC, CPC, BSA
+  profileId      String       @map("profile_id")
+  profile        Profile      @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  createdAt      DateTime     @default(now()) @map("created_at")
+  updatedAt      DateTime     @updatedAt @map("updated_at")
+
+  @@map("legal_cases")
+}
+

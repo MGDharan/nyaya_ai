@@ -1,0 +1,453 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NyayaAI | Citizen Legal Intelligence Assistant</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <div class="shell">
+    <header>
+      <div class="brand">
+        <div class="logo">⚖️</div>
+        <div>
+          <h1>NyayaAI</h1>
+          <p>Indian Legal Intelligence & Rights Navigator</p>
+        </div>
+      </div>
+      <div class="header-right">
+        <button type="button" onclick="openCreatorModal()" class="creator-header-pill" title="Meet the Creator & Founder">
+          <img src="/static/giridharan.jpg" alt="Giridharan" class="creator-mini-img">
+          <span>Created by Giridharan</span>
+        </button>
+        <button type="button" onclick="openContactModal()" class="contact-header-btn">
+          <span>Contact Us</span>
+        </button>
+        <div id="userBadge" class="user-badge-pill" style="display: none;">
+          <span id="userAvatar">⚖️</span>
+          <span id="userDisplayName">User</span>
+          <span id="userRoleBadge" class="user-badge-role">Civilian</span>
+          <a href="/advocate" id="counselConsoleLink" style="display: none; color: #92400e; font-weight: 700; text-decoration: none; padding: 2px 8px; background: #fef3c7; border: 1px solid #fde68a; border-radius: 12px; font-size: 11px;">⚖️ Counsel Console</a>
+          <a href="/login" id="headerSignOut" class="sign-out-btn">Sign Out</a>
+        </div>
+        <div id="guestPrompt" class="user-badge-pill" style="display: none;">
+          <span>👤 Guest Mode</span>
+          <a href="/login" style="color: var(--navy); font-weight: 700; text-decoration: underline; margin-left: 4px;">Sign In</a>
+        </div>
+        <div class="status"><span class="dot"></span> Source-Grounded AI</div>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="eyebrow">CITIZEN LEGAL ASSISTANT · INDIAN STATUTES & RIGHTS</div>
+        <h2>Understand the law.<br><span>Know your exact next step.</span></h2>
+        <p>Describe your issue in simple everyday words. NyayaAI breaks down the applicable <strong>Acts, exact Sections, step-by-step action roadmap</strong>, and <strong>evidence checklists</strong> in bite-sized, visual formats.</p>
+        
+        <div class="quick-chips">
+          <span class="chip-label">Quick examples:</span>
+          <button type="button" class="chip" data-q="I paid my college examination fee through UPI, but the college says payment was not received. Money was debited from my bank. What steps should I take?">🎓 College Fee / UPI Issue</button>
+          <button type="button" class="chip" data-q="My landlord is refusing to return my security deposit after I vacated the flat on time with 1 month notice. What are my legal options?">🏠 Landlord Security Deposit</button>
+          <button type="button" class="chip" data-q="I bought an electronic gadget online. It stopped working within 10 days and the seller refuses replacement or refund under warranty.">🛒 Consumer Warranty Dispute</button>
+          <button type="button" class="chip" data-q="I transferred money through an online link sent by a fraudster pretending to be customer care. Where do I report this immediately?">💳 Online / Cyber Fraud</button>
+        </div>
+
+        <div class="notice">
+          ℹ️ <strong>General Legal Information Only:</strong> NyayaAI assists in understanding statutes and procedures. It is not an attorney-client relationship. Verify Gazette dates and critical deadlines with an advocate before taking court action.
+        </div>
+      </section>
+
+      <section class="workspace">
+        <div class="form-panel">
+          <div class="section-title">
+            <div>
+              <h3>Describe Your Situation</h3>
+              <p>State what happened, who is involved, and what outcome you want. Avoid sharing Aadhaar, passwords, or OTPs.</p>
+            </div>
+            <span class="step">01 / ASK</span>
+          </div>
+
+          <label for="question">Your Situation / Legal Question</label>
+          <textarea id="question" placeholder="Describe what happened in your own words (e.g. My landlord refuses to refund my security deposit of ₹35,000 even though 1-month notice was given and flat handed over without damages...)" rows="5"></textarea>
+
+          <div class="fields">
+            <div>
+              <label for="language">Answer Language</label>
+              <select id="language">
+                <option value="English">English</option>
+                <option value="Hindi">हिंदी (Hindi)</option>
+                <option value="Tamil">தமிழ் (Tamil)</option>
+                <option value="Telugu">తెలుగు (Telugu)</option>
+                <option value="Malayalam">മലയാളം (Malayalam)</option>
+                <option value="Kannada">ಕನ್ನಡ (Kannada)</option>
+              </select>
+            </div>
+            <div>
+              <label for="jurisdiction">Jurisdiction / State</label>
+              <select id="jurisdiction">
+                <option value="India">All India (Central Statutes)</option>
+                <option value="Delhi, India">Delhi (NCT)</option>
+                <option value="Tamil Nadu, India">Tamil Nadu</option>
+                <option value="Maharashtra, India">Maharashtra</option>
+                <option value="Karnataka, India">Karnataka</option>
+                <option value="Uttar Pradesh, India">Uttar Pradesh</option>
+                <option value="Other Indian State / UT">Other State / Union Territory</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="fields">
+            <div>
+              <label for="date">Date of Incident / Transaction (optional)</label>
+              <input id="date" type="date">
+            </div>
+            <div>
+              <label for="context">Additional Facts (optional)</label>
+              <input id="context" placeholder="e.g. Registered lease agreement exists; written notice given on WhatsApp">
+            </div>
+          </div>
+
+          <!-- Choose Empanelled Advocate Section -->
+          <div class="advocate-picker-box">
+            <div class="advocate-picker-title">
+              <span>⚖️</span>
+              <span>Choose Verified Advocate for Case Representation</span>
+            </div>
+            <p class="advocate-subtext">Empanelled advocates can review your grievance, draft formal pleadings, and connect with you directly.</p>
+            <select id="advocateSelect" class="advocate-select-input">
+              <option value="">Loading verified advocates from Bar Registry...</option>
+            </select>
+            <div id="advocateSelectedMeta" class="advocate-details-pill">
+              <span id="advocateMetaSpecialization">Criminal Defense (BNS), Cyber Crime & Commercial Law</span>
+              <span id="advocateMetaPrivilege" class="privilege-tag">Sec 132 BSA Privileged</span>
+            </div>
+          </div>
+
+          <button id="ask" type="button">
+            <span>Analyse My Rights & Actions</span>
+            <span>→</span>
+          </button>
+          <p class="micro">Processed with Gemini AI & grounded against verified Indian statutes.</p>
+        </div>
+
+        <div class="side-panel">
+          <h3>Visual Legal Report Breakdown</h3>
+          <div class="feature">
+            <b>⚖️</b>
+            <div>
+              <strong>Exact Law & Section Badges</strong>
+              <p>Direct references to statutory Acts, enactments, and relevant sections.</p>
+            </div>
+          </div>
+          <div class="feature">
+            <b>🗺️</b>
+            <div>
+              <strong>Visual Action Roadmap</strong>
+              <p>Step-by-step path: from informal contact to legal notices and court filings.</p>
+            </div>
+          </div>
+          <div class="feature">
+            <b>📋</b>
+            <div>
+              <strong>Interactive Evidence Checklist</strong>
+              <p>Track documents, receipts, and communication logs you need to gather.</p>
+            </div>
+          </div>
+          <div class="feature">
+            <b>🚦</b>
+            <div>
+              <strong>Do's & Don'ts Matrix</strong>
+              <p>Instant clarity on what mistakes to avoid before taking legal steps.</p>
+            </div>
+          </div>
+
+          <div class="corpus">
+            <div class="corpus-head">
+              <span>Verified Legal Library</span>
+              <span id="doccount">Loading…</span>
+            </div>
+            <p>Answers are grounded in authoritative legislation, consumer codes, and verified statutory frameworks.</p>
+            <a href="/api/documents" target="_blank">View Indexed Statutes ↗</a>
+          </div>
+        </div>
+      </section>
+
+      <section id="result" class="result hidden">
+        <div class="result-head">
+          <div>
+            <span class="eyebrow">YOUR LEGAL INFORMATION REPORT</span>
+            <h3>Actionable Rights & Roadmap</h3>
+          </div>
+          <div class="actions-group">
+            <button class="secondary" id="copy" type="button">📋 Copy Summary</button>
+            <button class="secondary" id="print" type="button">🖨️ Print / Save PDF</button>
+            <button class="btn-send-advocate" id="sendAdvocateBtn" type="button">⚖️ Send Complaint to Advocate</button>
+            <button class="secondary btn-statutory-action" id="btnGenBSACert" type="button">📜 Sec 63 BSA Digital Cert</button>
+            <button class="secondary btn-statutory-action" id="btnGenPoliceFIR" type="button">🚓 Police FIR Draft (Sec 173 BNSS)</button>
+          </div>
+        </div>
+
+        <div id="confidence" class="confidence"></div>
+
+        <!-- Visually Structured Output Container -->
+        <div id="visual-report" class="visual-report"></div>
+
+        <!-- Citation Verification Audit Container -->
+        <div id="citation-audit-wrap" class="citation-audit-wrap">
+          <h4>⚖️ Legal Citation Verification & Judicial Precedents Audit</h4>
+          <p class="section-desc">Every cited statute, section, and judicial holding verified against authoritative Gazette enactments and Supreme Court precedents.</p>
+          <div id="audit-summary-badge" class="audit-summary-badge"></div>
+          <div id="claims-list" class="claims-list"></div>
+        </div>
+
+        <!-- Raw Text Toggle (For Complete Backup View) -->
+        <details class="raw-details">
+          <summary>View Plain Text Version</summary>
+          <div id="answer" class="answer"></div>
+        </details>
+
+        <h4>Specialist Legal Intelligence Agents</h4>
+        <div id="agents" class="agents"></div>
+
+        <h4>Referenced Statutory & Corpus Sources</h4>
+        <div id="sources" class="sources"></div>
+
+        <p class="disclaimer" id="disclaimer"></p>
+      </section>
+    </main>
+
+    <footer>
+      NyayaAI · Created &amp; Engineered by <strong>Giridharan</strong> · Built to democratize Indian legal awareness &amp; access to justice ·
+      <button type="button" onclick="openCreatorModal()" class="footer-creator-btn">Meet Creator &amp; Contact Us</button>
+    </footer>
+  </div>
+
+  <!-- Meet Creator & Contact Us Modal -->
+  <div id="creatorContactModal" class="nyaya-modal-backdrop hidden">
+    <div class="nyaya-modal-box creator-modal-box">
+      <div class="nyaya-modal-header creator-modal-header">
+        <div class="modal-title-group">
+          <span class="modal-icon">⭐</span>
+          <div>
+            <h3>About the Creator &amp; Founder</h3>
+            <p class="modal-subtitle">Meet Giridharan, the Engineer &amp; Innovator behind NyayaAI</p>
+          </div>
+        </div>
+        <button type="button" class="modal-close-btn" onclick="closeCreatorModal()">✕</button>
+      </div>
+
+      <div class="nyaya-modal-body">
+        <div class="creator-profile-card">
+          <div class="creator-img-wrap">
+            <img src="/static/giridharan.jpg" alt="Giridharan" class="creator-hero-img">
+            <span class="creator-active-indicator" title="Creator Active"></span>
+          </div>
+          <div class="creator-intro-content">
+            <div class="creator-tag">FOUNDER &amp; LEAD AI ENGINEER</div>
+            <h2 class="creator-name">Giridharan</h2>
+            <p class="creator-subtitle">Advocate &amp; Legal-AI Technology Innovator</p>
+            <div class="creator-chips">
+              <span class="chip-item">⚖️ Bar Council Verified</span>
+              <span class="chip-item">🤖 GenAI Legal Specialist</span>
+              <span class="chip-item">🏛️ Indian Sanhitas 2024</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="creator-bio-block">
+          <h4>Vision &amp; Background</h4>
+          <p>
+            <strong>Giridharan</strong> conceived, designed, and engineered <strong>NyayaAI</strong> with a singular mission: to make the vast and complex Indian legal framework understandable, transparent, and actionable for every citizen, while giving legal practitioners cutting-edge Bar Council compliant research capabilities.
+          </p>
+          <p>
+            Driven by a passion for constitutional rights, artificial intelligence, and access to justice, Giridharan built NyayaAI from the ground up—integrating the <strong>Bharatiya Nyaya Sanhita (BNS, 2023)</strong>, <strong>Bharatiya Nagarik Suraksha Sanhita (BNSS, 2023)</strong>, and <strong>Bharatiya Sakshya Adhiniyam (BSA, 2023)</strong> with strict date-aware temporal reasoning and Supreme Court coram precedents.
+          </p>
+        </div>
+
+        <div class="creator-contact-box">
+          <h4>Get in Touch with Giridharan</h4>
+          <div class="contact-links-grid">
+            <a href="mailto:mgdharan7@gmail.com" class="contact-link-pill">
+              <span class="material-symbols-outlined text-base">mail</span>
+              <span>mgdharan7@gmail.com</span>
+            </a>
+            <div class="contact-link-pill">
+              <span class="material-symbols-outlined text-base">location_on</span>
+              <span>Tamil Nadu &amp; Delhi, India</span>
+            </div>
+            <div class="contact-link-pill">
+              <span class="material-symbols-outlined text-base">verified</span>
+              <span>Bar Registration: D/1847/2019</span>
+            </div>
+          </div>
+
+          <form id="contactCreatorForm" onsubmit="handleSendCreatorMessage(event)" class="creator-message-form">
+            <label>Send a Direct Message or Collaboration Request:</label>
+            <div class="creator-form-inputs">
+              <input type="text" id="contactSenderName" placeholder="Your Name" required>
+              <input type="email" id="contactSenderEmail" placeholder="Your Email" required>
+            </div>
+            <textarea id="contactSenderMsg" rows="3" placeholder="Write your message or inquiry for Giridharan..." required></textarea>
+            <button type="submit" id="btnSendCreatorMsg" class="btn-send-creator">
+              <span>Send Message to Giridharan →</span>
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <div class="nyaya-modal-footer">
+        <button type="button" class="secondary" onclick="closeCreatorModal()">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 63 BSA Digital Evidence Certificate Modal -->
+  <div id="bsaCertModal" class="nyaya-modal-backdrop hidden">
+    <div class="nyaya-modal-box">
+      <div class="nyaya-modal-header">
+        <div class="modal-title-group">
+          <span class="modal-icon">📜</span>
+          <div>
+            <h3>Section 63 BSA Digital Evidence Certificate</h3>
+            <p class="modal-subtitle">Mandatory Certificate under Bharatiya Sakshya Adhiniyam, 2023 for WhatsApp &amp; UPI Records</p>
+          </div>
+        </div>
+        <button type="button" class="modal-close-btn" onclick="closeBSAModal()">✕</button>
+      </div>
+
+      <div class="nyaya-modal-body">
+        <div class="p-3 bg-amber-50 border border-amber-200 rounded-lg text-xs text-amber-900 leading-snug">
+          ⚖️ <strong>Statutory Requirement:</strong> Indian Courts and Police Stations strictly require this signed certificate under Section 63 BSA (formerly Sec 65B IEA) to admit electronic screenshots, WhatsApp chats, and UPI transaction records into evidence.
+        </div>
+
+        <div class="modal-form-grid">
+          <div class="form-group">
+            <label>Deponent / Certifier Name</label>
+            <input type="text" id="bsaCertifierName" placeholder="Your Name">
+          </div>
+          <div class="form-group">
+            <label>Device Model &amp; Phone</label>
+            <input type="text" id="bsaDeviceModel" placeholder="e.g. Samsung Galaxy S23 / iPhone 15">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Generated Statutory Certificate (Ready to Sign &amp; Submit)</label>
+          <textarea id="bsaCertificateText" rows="11" class="font-mono text-xs"></textarea>
+        </div>
+      </div>
+
+      <div class="nyaya-modal-footer">
+        <button type="button" class="secondary" onclick="closeBSAModal()">Close</button>
+        <button type="button" class="btn-confirm-send" onclick="copyBSACertText()" id="btnCopyBSACert">
+          <span>📋 Copy Certificate</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Police Complaint / FIR under Sec 173 BNSS Modal -->
+  <div id="policeFIRModal" class="nyaya-modal-backdrop hidden">
+    <div class="nyaya-modal-box">
+      <div class="nyaya-modal-header">
+        <div class="modal-title-group">
+          <span class="modal-icon">🚓</span>
+          <div>
+            <h3>Police Written Complaint / FIR Application</h3>
+            <p class="modal-subtitle">Formal Information under Section 173 BNSS, 2023 (formerly Sec 154 CrPC)</p>
+          </div>
+        </div>
+        <button type="button" class="modal-close-btn" onclick="closePoliceModal()">✕</button>
+      </div>
+
+      <div class="nyaya-modal-body">
+        <div class="p-3 bg-blue-50 border border-blue-200 rounded-lg text-xs text-blue-900 leading-snug">
+          👮 <strong>Cognizable Offence Reporting:</strong> Formal written complaint addressed to the Station House Officer (SHO) citing specific sections under BNS 318(4) (Cheating) and IT Act 66D for immediate FIR registration.
+        </div>
+
+        <div class="modal-form-grid">
+          <div class="form-group">
+            <label>Complainant Full Name</label>
+            <input type="text" id="firComplainantName" placeholder="Your Name">
+          </div>
+          <div class="form-group">
+            <label>Police Station / District</label>
+            <input type="text" id="firPoliceStation" placeholder="Cyber Crime Police Station / Local SHO">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Police Complaint Text (Ready to Print &amp; Submit to SHO)</label>
+          <textarea id="firComplaintText" rows="11" class="font-mono text-xs"></textarea>
+        </div>
+      </div>
+
+      <div class="nyaya-modal-footer">
+        <button type="button" class="secondary" onclick="closePoliceModal()">Close</button>
+        <button type="button" class="btn-confirm-send" onclick="copyPoliceFIRText()" id="btnCopyPoliceFIR">
+          <span>📋 Copy FIR Complaint</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Assign & Dispatch Complaint Modal -->
+  <div id="sendComplaintModal" class="nyaya-modal-backdrop hidden">
+    <div class="nyaya-modal-box">
+      <div class="nyaya-modal-header">
+        <div class="modal-title-group">
+          <span class="modal-icon">⚖️</span>
+          <div>
+            <h3>Dispatch Legal Complaint to Chosen Advocate</h3>
+            <p class="modal-subtitle">Protected under Section 132 of Bharatiya Sakshya Adhiniyam, 2023</p>
+          </div>
+        </div>
+        <button type="button" class="modal-close-btn" id="btnCloseSendModal">✕</button>
+      </div>
+
+      <div class="nyaya-modal-body">
+        <div class="modal-advocate-summary">
+          <div class="adv-label">Selected Legal Counsel:</div>
+          <div class="adv-info" id="modalAdvocateName">Advocate Giridharan • Bar D/1847/2019</div>
+          <div class="adv-email" id="modalAdvocateEmail">mgdharan7@gmail.com</div>
+        </div>
+
+        <div class="modal-form-grid">
+          <div class="form-group">
+            <label>Your Name / Email (Civilian Client)</label>
+            <input type="text" id="modalClientEmail" placeholder="mgdharan7@gmail.com">
+          </div>
+          <div class="form-group">
+            <label>Contact Phone (Optional)</label>
+            <input type="text" id="modalClientContact" placeholder="+91 98401 •••••">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Legal Grievance Subject / Title</label>
+          <input type="text" id="modalGrievanceSubject" placeholder="Summary of legal issue...">
+        </div>
+
+        <div class="form-group">
+          <label>Formal Complaint Letter & Case Summary for Counsel</label>
+          <textarea id="modalComplaintLetter" rows="9" placeholder="Draft complaint letter or case summary..."></textarea>
+        </div>
+
+        <div class="privilege-disclaimer">
+          🔒 <strong>Advocate Privilege:</strong> This complaint letter will be delivered directly into the advocate's live console roster. The advocate will review your material facts and connect with you to represent or schedule a consultation.
+        </div>
+      </div>
+
+      <div class="nyaya-modal-footer">
+        <button type="button" class="secondary" id="btnCancelSendModal">Cancel</button>
+        <button type="button" class="btn-confirm-send" id="btnConfirmSendComplaint">
+          <span>🚀 Confirm & Dispatch Complaint</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

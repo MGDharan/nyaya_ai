@@ -1,0 +1,31 @@
+# Secrets & Environment variables
+.env
+.env.*
+*.env
+**/.env*
+!**/.env.example
+
+# Virtual environments
+.venv/
+backend/.venv/
+venv/
+env/
+
+# Python Cache
+__pycache__/
+backend/**/__pycache__/
+.pytest_cache/
+*.pyc
+*.pyo
+
+# Logs
+*.log
+backend/*.log
+
+# Database storage & uploads
+backend/data/chroma/
+backend/data/uploads/
+node_modules/
+**/node_modules/
+login/node_modules/
+.DS_Store

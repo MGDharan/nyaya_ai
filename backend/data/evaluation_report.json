@@ -1,0 +1,914 @@
+{
+    "metrics": {
+        "total_scenarios": 100,
+        "legal_domain_accuracy": 81.0,
+        "primary_legislation_accuracy": 89.0,
+        "civil_vs_criminal_accuracy": 92.0,
+        "irrelevant_legislation_rejection_rate": 100.0,
+        "section_verification_rate": 77.0,
+        "outdated_legislation_error_rate": 0.0,
+        "evaluation_verdict": "PASSED"
+    },
+    "details": [
+        {
+            "id": "scenario_001",
+            "category": "contract",
+            "domain_match": false,
+            "act_match": true,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": true
+        },
+        {
+            "id": "scenario_002",
+            "category": "contract",
+            "domain_match": true,
+            "act_match": true,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": true
+        },
+        {
+            "id": "scenario_003",
+            "category": "contract",
+            "domain_match": true,
+            "act_match": true,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": true
+        },
+        {
+            "id": "scenario_004",
+            "category": "contract",
+            "domain_match": true,
+            "act_match": true,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": true
+        },
+        {
+            "id": "scenario_005",
+            "category": "contract",
+            "domain_match": true,
+            "act_match": true,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": true
+        },
+        {
+            "id": "scenario_006",
+            "category": "cheque_bounce",
+            "domain_match": true,
+            "act_match": true,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": true
+        },
+        {
+            "id": "scenario_007",
+            "category": "cheque_bounce",
+            "domain_match": true,
+            "act_match": true,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": true
+        },
+        {
+            "id": "scenario_008",
+            "category": "cheque_bounce",
+            "domain_match": true,
+            "act_match": true,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": true
+        },
+        {
+            "id": "scenario_009",
+            "category": "cheque_bounce",
+            "domain_match": true,
+            "act_match": true,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": true
+        },
+        {
+            "id": "scenario_010",
+            "category": "cheque_bounce",
+            "domain_match": true,
+            "act_match": true,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": true
+        },
+        {
+            "id": "scenario_011",
+            "category": "online_fraud",
+            "domain_match": false,
+            "act_match": true,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": true
+        },
+        {
+            "id": "scenario_012",
+            "category": "online_fraud",
+            "domain_match": true,
+            "act_match": true,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": true
+        },
+        {
+            "id": "scenario_013",
+            "category": "online_fraud",
+            "domain_match": true,
+            "act_match": true,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": true
+        },
+        {
+            "id": "scenario_014",
+            "category": "online_fraud",
+            "domain_match": true,
+            "act_match": true,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": true
+        },
+        {
+            "id": "scenario_015",
+            "category": "online_fraud",
+            "domain_match": true,
+            "act_match": true,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": true
+        },
+        {
+            "id": "scenario_016",
+            "category": "identity_theft",
+            "domain_match": true,
+            "act_match": true,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": true
+        },
+        {
+            "id": "scenario_017",
+            "category": "identity_theft",
+            "domain_match": true,
+            "act_match": true,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": true
+        },
+        {
+            "id": "scenario_018",
+            "category": "identity_theft",
+            "domain_match": true,
+            "act_match": true,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": true
+        },
+        {
+            "id": "scenario_019",
+            "category": "identity_theft",
+            "domain_match": true,
+            "act_match": true,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": true
+        },
+        {
+            "id": "scenario_020",
+            "category": "identity_theft",
+            "domain_match": false,
+            "act_match": true,
+            "nature_match": false,
+            "irrelevant_avoided": true,
+            "section_match": false
+        },
+        {
+            "id": "scenario_021",
+            "category": "defamation",
+            "domain_match": true,
+            "act_match": true,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": true
+        },
+        {
+            "id": "scenario_022",
+            "category": "defamation",
+            "domain_match": true,
+            "act_match": true,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": true
+        },
+        {
+            "id": "scenario_023",
+            "category": "defamation",
+            "domain_match": true,
+            "act_match": true,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": true
+        },
+        {
+            "id": "scenario_024",
+            "category": "defamation",
+            "domain_match": true,
+            "act_match": true,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": true
+        },
+        {
+            "id": "scenario_025",
+            "category": "defamation",
+            "domain_match": false,
+            "act_match": false,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": false
+        },
+        {
+            "id": "scenario_026",
+            "category": "property",
+            "domain_match": true,
+            "act_match": true,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": true
+        },
+        {
+            "id": "scenario_027",
+            "category": "property",
+            "domain_match": true,
+            "act_match": true,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": false
+        },
+        {
+            "id": "scenario_028",
+            "category": "property",
+            "domain_match": true,
+            "act_match": true,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": true
+        },
+        {
+            "id": "scenario_029",
+            "category": "property",
+            "domain_match": true,
+            "act_match": true,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": false
+        },
+        {
+            "id": "scenario_030",
+            "category": "property",
+            "domain_match": true,
+            "act_match": true,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": false
+        },
+        {
+            "id": "scenario_031",
+            "category": "employment",
+            "domain_match": true,
+            "act_match": true,
+            "nature_match": false,
+            "irrelevant_avoided": true,
+            "section_match": true
+        },
+        {
+            "id": "scenario_032",
+            "category": "employment",
+            "domain_match": true,
+            "act_match": true,
+            "nature_match": false,
+            "irrelevant_avoided": true,
+            "section_match": false
+        },
+        {
+            "id": "scenario_033",
+            "category": "employment",
+            "domain_match": true,
+            "act_match": true,
+            "nature_match": false,
+            "irrelevant_avoided": true,
+            "section_match": false
+        },
+        {
+            "id": "scenario_034",
+            "category": "employment",
+            "domain_match": true,
+            "act_match": true,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": false
+        },
+        {
+            "id": "scenario_035",
+            "category": "employment",
+            "domain_match": true,
+            "act_match": true,
+            "nature_match": false,
+            "irrelevant_avoided": true,
+            "section_match": false
+        },
+        {
+            "id": "scenario_036",
+            "category": "workplace_harassment",
+            "domain_match": true,
+            "act_match": true,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": true
+        },
+        {
+            "id": "scenario_037",
+            "category": "workplace_harassment",
+            "domain_match": true,
+            "act_match": true,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": true
+        },
+        {
+            "id": "scenario_038",
+            "category": "workplace_harassment",
+            "domain_match": true,
+            "act_match": true,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": true
+        },
+        {
+            "id": "scenario_039",
+            "category": "workplace_harassment",
+            "domain_match": false,
+            "act_match": false,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": false
+        },
+        {
+            "id": "scenario_040",
+            "category": "workplace_harassment",
+            "domain_match": true,
+            "act_match": true,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": true
+        },
+        {
+            "id": "scenario_041",
+            "category": "road_accident",
+            "domain_match": true,
+            "act_match": true,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": true
+        },
+        {
+            "id": "scenario_042",
+            "category": "road_accident",
+            "domain_match": true,
+            "act_match": true,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": true
+        },
+        {
+            "id": "scenario_043",
+            "category": "road_accident",
+            "domain_match": true,
+            "act_match": true,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": true
+        },
+        {
+            "id": "scenario_044",
+            "category": "road_accident",
+            "domain_match": true,
+            "act_match": true,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": true
+        },
+        {
+            "id": "scenario_045",
+            "category": "road_accident",
+            "domain_match": true,
+            "act_match": true,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": true
+        },
+        {
+            "id": "scenario_046",
+            "category": "domestic_violence",
+            "domain_match": true,
+            "act_match": true,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": true
+        },
+        {
+            "id": "scenario_047",
+            "category": "domestic_violence",
+            "domain_match": true,
+            "act_match": true,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": true
+        },
+        {
+            "id": "scenario_048",
+            "category": "domestic_violence",
+            "domain_match": true,
+            "act_match": true,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": true
+        },
+        {
+            "id": "scenario_049",
+            "category": "domestic_violence",
+            "domain_match": false,
+            "act_match": true,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": false
+        },
+        {
+            "id": "scenario_050",
+            "category": "domestic_violence",
+            "domain_match": true,
+            "act_match": true,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": true
+        },
+        {
+            "id": "scenario_051",
+            "category": "maintenance",
+            "domain_match": true,
+            "act_match": true,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": true
+        },
+        {
+            "id": "scenario_052",
+            "category": "maintenance",
+            "domain_match": false,
+            "act_match": true,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": false
+        },
+        {
+            "id": "scenario_053",
+            "category": "maintenance",
+            "domain_match": true,
+            "act_match": true,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": true
+        },
+        {
+            "id": "scenario_054",
+            "category": "maintenance",
+            "domain_match": true,
+            "act_match": true,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": true
+        },
+        {
+            "id": "scenario_055",
+            "category": "maintenance",
+            "domain_match": true,
+            "act_match": true,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": true
+        },
+        {
+            "id": "scenario_056",
+            "category": "consumer",
+            "domain_match": true,
+            "act_match": true,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": true
+        },
+        {
+            "id": "scenario_057",
+            "category": "consumer",
+            "domain_match": true,
+            "act_match": true,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": true
+        },
+        {
+            "id": "scenario_058",
+            "category": "consumer",
+            "domain_match": true,
+            "act_match": true,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": true
+        },
+        {
+            "id": "scenario_059",
+            "category": "consumer",
+            "domain_match": true,
+            "act_match": true,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": true
+        },
+        {
+            "id": "scenario_060",
+            "category": "consumer",
+            "domain_match": true,
+            "act_match": true,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": true
+        },
+        {
+            "id": "scenario_061",
+            "category": "ip_disputes",
+            "domain_match": true,
+            "act_match": true,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": true
+        },
+        {
+            "id": "scenario_062",
+            "category": "ip_disputes",
+            "domain_match": false,
+            "act_match": true,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": true
+        },
+        {
+            "id": "scenario_063",
+            "category": "ip_disputes",
+            "domain_match": true,
+            "act_match": true,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": false
+        },
+        {
+            "id": "scenario_064",
+            "category": "ip_disputes",
+            "domain_match": false,
+            "act_match": false,
+            "nature_match": false,
+            "irrelevant_avoided": true,
+            "section_match": true
+        },
+        {
+            "id": "scenario_065",
+            "category": "ip_disputes",
+            "domain_match": false,
+            "act_match": false,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": false
+        },
+        {
+            "id": "scenario_066",
+            "category": "cbt",
+            "domain_match": true,
+            "act_match": true,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": true
+        },
+        {
+            "id": "scenario_067",
+            "category": "cbt",
+            "domain_match": true,
+            "act_match": true,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": true
+        },
+        {
+            "id": "scenario_068",
+            "category": "cbt",
+            "domain_match": true,
+            "act_match": true,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": true
+        },
+        {
+            "id": "scenario_069",
+            "category": "cbt",
+            "domain_match": true,
+            "act_match": true,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": true
+        },
+        {
+            "id": "scenario_070",
+            "category": "cbt",
+            "domain_match": true,
+            "act_match": true,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": true
+        },
+        {
+            "id": "scenario_071",
+            "category": "cheating",
+            "domain_match": false,
+            "act_match": false,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": false
+        },
+        {
+            "id": "scenario_072",
+            "category": "cheating",
+            "domain_match": false,
+            "act_match": false,
+            "nature_match": false,
+            "irrelevant_avoided": true,
+            "section_match": false
+        },
+        {
+            "id": "scenario_073",
+            "category": "cheating",
+            "domain_match": false,
+            "act_match": false,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": false
+        },
+        {
+            "id": "scenario_074",
+            "category": "cheating",
+            "domain_match": true,
+            "act_match": true,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": true
+        },
+        {
+            "id": "scenario_075",
+            "category": "cheating",
+            "domain_match": false,
+            "act_match": false,
+            "nature_match": false,
+            "irrelevant_avoided": true,
+            "section_match": false
+        },
+        {
+            "id": "scenario_076",
+            "category": "finder_goods",
+            "domain_match": true,
+            "act_match": true,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": true
+        },
+        {
+            "id": "scenario_077",
+            "category": "finder_goods",
+            "domain_match": true,
+            "act_match": true,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": true
+        },
+        {
+            "id": "scenario_078",
+            "category": "finder_goods",
+            "domain_match": true,
+            "act_match": true,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": true
+        },
+        {
+            "id": "scenario_079",
+            "category": "finder_goods",
+            "domain_match": true,
+            "act_match": true,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": true
+        },
+        {
+            "id": "scenario_080",
+            "category": "finder_goods",
+            "domain_match": false,
+            "act_match": false,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": false
+        },
+        {
+            "id": "scenario_081",
+            "category": "personal_loan",
+            "domain_match": true,
+            "act_match": true,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": true
+        },
+        {
+            "id": "scenario_082",
+            "category": "personal_loan",
+            "domain_match": true,
+            "act_match": true,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": true
+        },
+        {
+            "id": "scenario_083",
+            "category": "personal_loan",
+            "domain_match": true,
+            "act_match": true,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": true
+        },
+        {
+            "id": "scenario_084",
+            "category": "personal_loan",
+            "domain_match": true,
+            "act_match": true,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": true
+        },
+        {
+            "id": "scenario_085",
+            "category": "personal_loan",
+            "domain_match": false,
+            "act_match": true,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": false
+        },
+        {
+            "id": "scenario_086",
+            "category": "cyberstalking",
+            "domain_match": true,
+            "act_match": true,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": true
+        },
+        {
+            "id": "scenario_087",
+            "category": "cyberstalking",
+            "domain_match": true,
+            "act_match": true,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": true
+        },
+        {
+            "id": "scenario_088",
+            "category": "cyberstalking",
+            "domain_match": true,
+            "act_match": true,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": true
+        },
+        {
+            "id": "scenario_089",
+            "category": "cyberstalking",
+            "domain_match": true,
+            "act_match": true,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": true
+        },
+        {
+            "id": "scenario_090",
+            "category": "cyberstalking",
+            "domain_match": true,
+            "act_match": true,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": true
+        },
+        {
+            "id": "scenario_091",
+            "category": "rent_deposit",
+            "domain_match": true,
+            "act_match": true,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": true
+        },
+        {
+            "id": "scenario_092",
+            "category": "rent_deposit",
+            "domain_match": true,
+            "act_match": true,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": true
+        },
+        {
+            "id": "scenario_093",
+            "category": "rent_deposit",
+            "domain_match": false,
+            "act_match": false,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": false
+        },
+        {
+            "id": "scenario_094",
+            "category": "rent_deposit",
+            "domain_match": false,
+            "act_match": true,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": true
+        },
+        {
+            "id": "scenario_095",
+            "category": "rent_deposit",
+            "domain_match": true,
+            "act_match": true,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": false
+        },
+        {
+            "id": "scenario_096",
+            "category": "education",
+            "domain_match": true,
+            "act_match": true,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": true
+        },
+        {
+            "id": "scenario_097",
+            "category": "education",
+            "domain_match": true,
+            "act_match": true,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": true
+        },
+        {
+            "id": "scenario_098",
+            "category": "education",
+            "domain_match": true,
+            "act_match": true,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": true
+        },
+        {
+            "id": "scenario_099",
+            "category": "education",
+            "domain_match": false,
+            "act_match": false,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": false
+        },
+        {
+            "id": "scenario_100",
+            "category": "education",
+            "domain_match": true,
+            "act_match": true,
+            "nature_match": true,
+            "irrelevant_avoided": true,
+            "section_match": true
+        }
+    ]
+}

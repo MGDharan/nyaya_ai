@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NyayaAI Advocate Counsel Console | Practice Intelligence & Client Inflow</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Cinzel:wght@600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              navy: "#0a192f",
+              darkNavy: "#040c18",
+              gold: "#d4af37",
+              lightGold: "#f9f1d8",
+              steel: "#334155",
+              accent: "#1e3a8a",
+              border: "#1e293b",
+              card: "#0d213c",
+              cardLight: "#132b4d"
+            }
+          },
+          fontFamily: {
+            cinzel: ["Cinzel", "serif"],
+            sans: ["Inter", "sans-serif"],
+            mono: ["JetBrains Mono", "monospace"]
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    body {
+      background: radial-gradient(circle at 10% 20%, #071529 0%, #030812 90%);
+      color: #e2e8f0;
+      min-height: 100vh;
+    }
+    .custom-scroll::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scroll::-webkit-scrollbar-track {
+      background: #091a32;
+    }
+    .custom-scroll::-webkit-scrollbar-thumb {
+      background: #1e3a8a;
+      border-radius: 4px;
+    }
+    .gold-glow {
+      box-shadow: 0 0 20px rgba(212, 175, 55, 0.15);
+    }
+  </style>
+</head>
+<body class="font-sans antialiased">
+
+  <!-- Top Sovereign Advocate Navigation Header -->
+  <header class="border-b border-brand-border/80 bg-brand-darkNavy/90 backdrop-blur sticky top-0 z-50 px-4 lg:px-8 py-3.5">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-lg bg-brand-gold/10 border border-brand-gold/30 flex items-center justify-center text-brand-gold text-2xl font-cinzel shadow-sm">
+          ⚖️
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="text-xl font-cinzel font-bold text-white tracking-wide">NyayaAI</h1>
+            <span class="px-2 py-0.5 rounded text-[11px] font-mono font-bold bg-brand-gold text-brand-darkNavy uppercase tracking-wider">Advocate Console</span>
+          </div>
+          <p class="text-xs text-slate-400">High Court & Supreme Court Legal Intelligence Suite</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <!-- Counsel ID Badge -->
+        <div class="hidden sm:flex items-center gap-2.5 px-3 py-1.5 rounded-lg bg-brand-card border border-brand-border text-xs">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span id="counselProfileDisplay" class="font-medium text-slate-200">Advocate Giridharan • Bar D/1847/2019</span>
+          <span class="px-1.5 py-0.5 rounded bg-brand-accent/50 text-[10px] text-brand-lightGold font-mono">Sec 132 BSA Privileged</span>
+        </div>
+
+        <button type="button" onclick="openCreatorModal()" class="px-3 py-1.5 rounded-lg bg-brand-gold/15 hover:bg-brand-gold/25 border border-brand-gold/40 text-brand-gold text-xs font-semibold flex items-center gap-2 transition-all" title="Meet Giridharan, Creator of NyayaAI">
+          <img src="/static/giridharan.jpg" alt="Giridharan" class="w-5 h-5 rounded-full object-cover border border-brand-gold">
+          <span>Created by Giridharan</span>
+        </button>
+
+        <a href="/app" class="px-3.5 py-2 rounded-lg bg-brand-card hover:bg-brand-cardLight border border-brand-border text-slate-200 hover:text-white text-xs font-semibold flex items-center gap-1.5 transition-all">
+          <span class="material-symbols-outlined text-[16px]">chat</span>
+          <span>Citizen Workspace</span>
+        </a>
+
+        <a href="/login" id="advocateSignOut" class="px-3 py-2 rounded-lg bg-red-950/40 hover:bg-red-900/60 border border-red-800/50 text-red-300 hover:text-white text-xs font-semibold flex items-center gap-1 transition-all">
+          <span class="material-symbols-outlined text-[16px]">logout</span>
+          <span>Sign Out</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-4 lg:px-8 py-8 space-y-8">
+
+    <!-- Hero / Advocate Value Proposition Banner -->
+    <div class="relative overflow-hidden rounded-2xl bg-gradient-to-r from-brand-card via-brand-darkNavy to-brand-card p-6 lg:p-8 border border-brand-gold/30 gold-glow">
+      <div class="relative z-10 max-w-3xl space-y-3">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-gold/10 border border-brand-gold/30 text-brand-gold text-xs font-mono font-semibold">
+          <span class="material-symbols-outlined text-[14px]">verified</span>
+          BAR COUNCIL OF INDIA COMPLIANT DIGITAL PRACTICE
+        </div>
+        <h2 class="text-2xl lg:text-3xl font-cinzel font-bold text-white leading-tight">
+          Counsel Command Center: Real-Time Inflow, Corpus Monitor & Deep Briefs
+        </h2>
+        <p class="text-sm text-slate-300 leading-relaxed">
+          While civilians receive bite-sized procedural action roadmaps, the <strong>Advocate Console</strong> equips practitioners with substantive ratio decidendi, contradictory High Court benchmarks, procedural limitation countdowns, and court-ready pleadings under the Bharatiya Nyaya Sanhita, 2023.
+        </p>
+      </div>
+      <div class="absolute right-4 -bottom-6 opacity-10 text-9xl font-cinzel select-none pointer-events-none text-brand-gold">
+        ⚖
+      </div>
+    </div>
+
+    <!-- 4 Key Performance Metrics -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div class="p-5 rounded-xl bg-brand-card/90 border border-brand-border shadow-lg">
+        <div class="flex items-center justify-between text-slate-400 mb-2">
+          <span class="text-xs font-semibold uppercase tracking-wider">Civilian Inflow</span>
+          <span class="material-symbols-outlined text-brand-gold text-xl">group</span>
+        </div>
+        <div class="flex items-baseline gap-2">
+          <span id="metricCivilianCount" class="text-3xl font-bold font-mono text-white">6</span>
+          <span class="text-xs text-emerald-400 font-medium">Active Inquiries</span>
+        </div>
+        <p class="text-[11px] text-slate-400 mt-2">Registered citizens seeking counsel guidance</p>
+      </div>
+
+      <div class="p-5 rounded-xl bg-brand-card/90 border border-brand-border shadow-lg">
+        <div class="flex items-center justify-between text-slate-400 mb-2">
+          <span class="text-xs font-semibold uppercase tracking-wider">Statutory Corpus</span>
+          <span class="material-symbols-outlined text-emerald-400 text-xl">menu_book</span>
+        </div>
+        <div class="flex items-baseline gap-2">
+          <span id="metricActiveStatutes" class="text-3xl font-bold font-mono text-emerald-400">14</span>
+          <span class="text-xs text-slate-300 font-medium">In Force</span>
+          <span class="text-xs text-rose-400 font-mono">/ 2 Repealed</span>
+        </div>
+        <p class="text-[11px] text-slate-400 mt-2">Central & State Acts audited with Gazette data</p>
+      </div>
+
+      <div class="p-5 rounded-xl bg-brand-card/90 border border-brand-border shadow-lg">
+        <div class="flex items-center justify-between text-slate-400 mb-2">
+          <span class="text-xs font-semibold uppercase tracking-wider">Advocate Privilege</span>
+          <span class="material-symbols-outlined text-blue-400 text-xl">security</span>
+        </div>
+        <div class="flex items-baseline gap-2">
+          <span class="text-2xl font-bold font-mono text-blue-300">Sec 132 BSA</span>
+        </div>
+        <p class="text-[11px] text-slate-400 mt-2">Statutory confidentiality immune from subpoena</p>
+      </div>
+
+      <div class="p-5 rounded-xl bg-brand-card/90 border border-brand-border shadow-lg">
+        <div class="flex items-center justify-between text-slate-400 mb-2">
+          <span class="text-xs font-semibold uppercase tracking-wider">Judicial Citations</span>
+          <span class="material-symbols-outlined text-brand-gold text-xl">gavel</span>
+        </div>
+        <div class="flex items-baseline gap-2">
+          <span class="text-3xl font-bold font-mono text-brand-gold">100%</span>
+          <span class="text-xs text-emerald-400 font-medium">Verified Ratios</span>
+        </div>
+        <p class="text-[11px] text-slate-400 mt-2">Supreme Court & High Court binding authorities</p>
+      </div>
+    </div>
+
+    <!-- Navigation Tabs for Advocate Console -->
+    <div class="flex flex-wrap items-center gap-2 border-b border-brand-border pb-3 text-sm font-semibold">
+      <button type="button" onclick="switchAdvocateTab('civilians')" id="tabBtnCivilians" class="px-4 py-2 rounded-lg bg-brand-gold text-brand-darkNavy flex items-center gap-2 transition-all">
+        <span class="material-symbols-outlined text-[18px]">contacts</span>
+        <span>Civilian Client Inflow (<span id="tabCivilianBadge">6</span>)</span>
+      </button>
+      <button type="button" onclick="switchAdvocateTab('statutes')" id="tabBtnStatutes" class="px-4 py-2 rounded-lg bg-brand-card text-slate-300 hover:text-white hover:bg-brand-cardLight flex items-center gap-2 transition-all">
+        <span class="material-symbols-outlined text-[18px]">policy</span>
+        <span>Statute Health (Active vs Repealed)</span>
+      </button>
+      <button type="button" onclick="switchAdvocateTab('research')" id="tabBtnResearch" class="px-4 py-2 rounded-lg bg-brand-card text-slate-300 hover:text-white hover:bg-brand-cardLight flex items-center gap-2 transition-all">
+        <span class="material-symbols-outlined text-[18px]">auto_stories</span>
+        <span>Deep Counsel Research Briefs</span>
+      </button>
+      <button type="button" onclick="switchAdvocateTab('benefits')" id="tabBtnBenefits" class="px-4 py-2 rounded-lg bg-brand-card text-slate-300 hover:text-white hover:bg-brand-cardLight flex items-center gap-2 transition-all">
+        <span class="material-symbols-outlined text-[18px]">verified_user</span>
+        <span>Advocate Privileges & Practice Suite</span>
+      </button>
+    </div>
+
+    <!-- TAB 1: Civilian Inflow & Registered Matters -->
+    <section id="paneCivilians" class="space-y-4">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div>
+          <h3 class="text-lg font-cinzel font-bold text-white flex items-center gap-2">
+            <span class="material-symbols-outlined text-brand-gold">person_search</span>
+            Civilian Client Inflow & Pre-Litigation Matters
+          </h3>
+          <p class="text-xs text-slate-400">Incoming citizens who have interacted with the platform, categorized by jurisdiction and urgency.</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <input type="text" id="filterCivilianInput" onkeyup="filterCivilianTable()" placeholder="Filter by domain or client..." class="px-3 py-1.5 rounded-lg bg-brand-card border border-brand-border text-xs text-slate-200 focus:outline-none focus:border-brand-gold">
+        </div>
+      </div>
+
+      <div class="overflow-x-auto rounded-xl border border-brand-border bg-brand-card/60 shadow-xl custom-scroll">
+        <table class="w-full text-left text-xs border-collapse">
+          <thead>
+            <tr class="bg-brand-darkNavy text-slate-300 font-mono text-[11px] uppercase tracking-wider border-b border-brand-border">
+              <th class="p-3.5">Case ID</th>
+              <th class="p-3.5">Civilian Client</th>
+              <th class="p-3.5">Legal Domain</th>
+              <th class="p-3.5">Facts & Incident</th>
+              <th class="p-3.5">Applicable Law & Forum</th>
+              <th class="p-3.5">Assigned Advocate & Status</th>
+              <th class="p-3.5 text-right">Counsel Actions</th>
+            </tr>
+          </thead>
+          <tbody id="civilianCasesTbody" class="divide-y divide-brand-border/60 font-normal">
+            <!-- Rendered by JS -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- TAB 2: Statute Corpus & Health Monitor (Active vs Deactive) -->
+    <section id="paneStatutes" class="space-y-4 hidden">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div>
+          <h3 class="text-lg font-cinzel font-bold text-white flex items-center gap-2">
+            <span class="material-symbols-outlined text-emerald-400">gavel</span>
+            Statutory Corpus Status Monitor (Active vs. Repealed)
+          </h3>
+          <p class="text-xs text-slate-400">Authoritative tracking of Indian legislation processed by Nyaya AI, noting transition from old codes to 2024 Sanhitas.</p>
+        </div>
+        <div class="flex items-center gap-2 text-xs">
+          <button type="button" onclick="filterStatuteStatus('all')" id="statuteFilterAll" class="px-3 py-1.5 rounded bg-brand-gold text-brand-darkNavy font-semibold">All Statutes</button>
+          <button type="button" onclick="filterStatuteStatus('active')" id="statuteFilterActive" class="px-3 py-1.5 rounded bg-brand-card border border-brand-border text-emerald-400 font-semibold">Active In Force</button>
+          <button type="button" onclick="filterStatuteStatus('repealed')" id="statuteFilterRepealed" class="px-3 py-1.5 rounded bg-brand-card border border-brand-border text-rose-400 font-semibold">Repealed / Replaced</button>
+        </div>
+      </div>
+
+      <div class="overflow-x-auto rounded-xl border border-brand-border bg-brand-card/60 shadow-xl custom-scroll">
+        <table class="w-full text-left text-xs border-collapse">
+          <thead>
+            <tr class="bg-brand-darkNavy text-slate-300 font-mono text-[11px] uppercase tracking-wider border-b border-brand-border">
+              <th class="p-3.5">Official Act Name</th>
+              <th class="p-3.5">Act No. & Enactment</th>
+              <th class="p-3.5">Jurisdiction</th>
+              <th class="p-3.5">Status</th>
+              <th class="p-3.5">Statutory Transition / Savings Clause</th>
+              <th class="p-3.5">Sections Indexed</th>
+              <th class="p-3.5 text-right">Gazette / India Code</th>
+            </tr>
+          </thead>
+          <tbody id="statutesTbody" class="divide-y divide-brand-border/60">
+            <!-- Rendered by JS -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- TAB 3: Deep Counsel Legal Research -->
+    <section id="paneResearch" class="space-y-6 hidden">
+      <!-- Why Advocate Brief is Deeper than Civilian Explanation -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="p-5 rounded-xl bg-slate-900/80 border border-slate-700/80 space-y-2.5">
+          <div class="flex items-center gap-2 text-slate-300 font-semibold text-sm">
+            <span class="material-symbols-outlined text-blue-400">person</span>
+            Civilian Citizen Mode (Lay-Friendly)
+          </div>
+          <ul class="text-xs text-slate-400 space-y-1.5 list-disc list-inside">
+            <li><strong>Objective:</strong> Immediate next steps, plain-language rights, simple FAQs.</li>
+            <li><strong>Tone:</strong> Accessible, empathetic, zero dense Latin terminology.</li>
+            <li><strong>Outputs:</strong> Informal grievance templates, do's & don'ts, helpline numbers (1930, 1915).</li>
+            <li><strong>Omissions:</strong> Dense bench ratios and procedural objections are omitted to prevent confusion.</li>
+          </ul>
+        </div>
+
+        <div class="p-5 rounded-xl bg-brand-card border border-brand-gold/40 space-y-2.5">
+          <div class="flex items-center gap-2 text-brand-gold font-semibold text-sm">
+            <span class="material-symbols-outlined text-brand-gold">balance</span>
+            Advocate Counsel Mode (Substantive & Trial-Ready)
+          </div>
+          <ul class="text-xs text-slate-300 space-y-1.5 list-disc list-inside">
+            <li><strong>Objective:</strong> Substantive legal brief with precise elements, mens rea, actus reus, and defenses.</li>
+            <li><strong>Judicial Coram:</strong> Exact Supreme Court & High Court ratios with Bench composition (Constitution/Division).</li>
+            <li><strong>Contradictory Rulings:</strong> Highlights conflicting High Court interpretations for forum strategy.</li>
+            <li><strong>Outputs:</strong> Court pleadings, formal legal notices under Section 138 NI Act, Writ skeletons under Art. 226.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Interactive Counsel Brief Generator -->
+      <div class="p-6 rounded-2xl bg-brand-card/90 border border-brand-border space-y-4">
+        <h3 class="text-lg font-cinzel font-bold text-white flex items-center gap-2">
+          <span class="material-symbols-outlined text-brand-gold">psychology</span>
+          Generate Advocate Legal Brief
+        </h3>
+        <p class="text-xs text-slate-400">Enter any legal dispute, statutory section, or client proposition to retrieve an exhaustive counsel trial brief.</p>
+
+        <div class="flex flex-col sm:flex-row gap-3">
+          <input type="text" id="counselSearchInput" placeholder="e.g. Job scam on WhatsApp and Telegram with fake recruitment fee..." class="flex-1 px-4 py-2.5 rounded-lg bg-brand-darkNavy border border-brand-border text-sm text-slate-200 focus:outline-none focus:border-brand-gold">
+          <button type="button" onclick="fetchCounselBrief()" id="btnGenerateBrief" class="px-5 py-2.5 rounded-lg bg-brand-gold hover:bg-yellow-500 text-brand-darkNavy font-semibold text-sm flex items-center justify-center gap-2 transition-all">
+            <span class="material-symbols-outlined text-[18px]">search</span>
+            <span>Generate Counsel Brief</span>
+          </button>
+        </div>
+
+        <!-- Quick Topics for Counsel -->
+        <div class="flex flex-wrap items-center gap-2 text-xs">
+          <span class="text-slate-400 font-mono">Quick Research:</span>
+          <button type="button" onclick="setResearchQuery('Bogus job recruiter scam on Telegram BNS 318(4)')" class="px-2.5 py-1 rounded bg-brand-darkNavy hover:bg-brand-cardLight border border-brand-border text-slate-300">Job Scam & BNS 318(4)</button>
+          <button type="button" onclick="setResearchQuery('Cheque bounce Section 138 statutory demand notice limitation')" class="px-2.5 py-1 rounded bg-brand-darkNavy hover:bg-brand-cardLight border border-brand-border text-slate-300">Section 138 NI Act</button>
+          <button type="button" onclick="setResearchQuery('University exam fee withholding hall ticket UGC 2023 regulations')" class="px-2.5 py-1 rounded bg-brand-darkNavy hover:bg-brand-cardLight border border-brand-border text-slate-300">UGC 2023 Education Doctrine</button>
+          <button type="button" onclick="setResearchQuery('Civil recovery of personal friendly loan Order 37 CPC')" class="px-2.5 py-1 rounded bg-brand-darkNavy hover:bg-brand-cardLight border border-brand-border text-slate-300">Civil Recovery & Order 37</button>
+        </div>
+      </div>
+
+      <!-- Result Counsel Brief Output Container -->
+      <div id="counselBriefResult" class="hidden space-y-4">
+        <!-- Rendered dynamically -->
+      </div>
+    </section>
+
+    <!-- TAB 4: Advocate Exclusive Benefits & Privileges -->
+    <section id="paneBenefits" class="space-y-6 hidden">
+      <div>
+        <h3 class="text-lg font-cinzel font-bold text-white flex items-center gap-2">
+          <span class="material-symbols-outlined text-brand-gold">military_tech</span>
+          Advocate Exclusive Benefits, Powers & Privileges
+        </h3>
+        <p class="text-xs text-slate-400">Statutory and technological advantages available exclusively to verified advocates on NyayaAI.</p>
+      </div>
+
+      <div id="benefitsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <!-- Populated by JS -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Pleading Generator Modal -->
+  <div id="pleadingModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-brand-darkNavy border border-brand-gold/40 rounded-2xl max-w-3xl w-full max-h-[90vh] flex flex-col shadow-2xl">
+      <div class="p-5 border-b border-brand-border flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <span class="material-symbols-outlined text-brand-gold">description</span>
+          <h4 id="pleadingModalTitle" class="text-base font-cinzel font-bold text-white">Court-Ready Pleading Draft</h4>
+        </div>
+        <button type="button" onclick="closePleadingModal()" class="text-slate-400 hover:text-white">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+      <div class="p-6 overflow-y-auto space-y-4 font-mono text-xs text-slate-300 custom-scroll" id="pleadingModalBody">
+        <!-- Content -->
+      </div>
+      <div class="p-4 border-t border-brand-border bg-brand-card/50 flex items-center justify-between">
+        <span class="text-[11px] text-slate-400 font-mono">Format: High Court of Judicature Standards</span>
+        <button type="button" onclick="copyPleadingText()" id="btnCopyPleading" class="px-4 py-2 rounded-lg bg-brand-gold text-brand-darkNavy font-semibold text-xs flex items-center gap-1.5">
+          <span class="material-symbols-outlined text-[16px]">content_copy</span>
+          <span>Copy Pleading Draft</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Civilian Complaint Letter View Modal -->
+  <div id="complaintLetterModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-brand-darkNavy border border-brand-gold/40 rounded-2xl max-w-3xl w-full max-h-[90vh] flex flex-col shadow-2xl">
+      <div class="p-5 border-b border-brand-border flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <span class="material-symbols-outlined text-blue-400">article</span>
+          <div>
+            <h4 id="complaintModalTitle" class="text-base font-cinzel font-bold text-white">Civilian Formal Complaint Letter</h4>
+            <p class="text-[11px] text-slate-400 font-mono">Dispatched by civilian directly to Advocate under Sec 132 BSA</p>
+          </div>
+        </div>
+        <button type="button" onclick="closeComplaintLetterModal()" class="text-slate-400 hover:text-white">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+      <div class="p-6 overflow-y-auto space-y-4 font-mono text-xs text-slate-200 custom-scroll" id="complaintModalBody">
+        <!-- Complaint Text Rendered Here -->
+      </div>
+      <div class="p-4 border-t border-brand-border bg-brand-card/50 flex items-center justify-between">
+        <span id="complaintModalMeta" class="text-[11px] text-slate-400 font-mono">Privileged Communication</span>
+        <button type="button" onclick="copyComplaintLetterText()" id="btnCopyComplaint" class="px-4 py-2 rounded-lg bg-brand-gold text-brand-darkNavy font-semibold text-xs flex items-center gap-1.5">
+          <span class="material-symbols-outlined text-[16px]">content_copy</span>
+          <span>Copy Complaint Text</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Connect Directly with Civilian Client Modal -->
+  <div id="connectModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-brand-darkNavy border border-brand-gold/40 rounded-2xl max-w-2xl w-full max-h-[90vh] flex flex-col shadow-2xl">
+      <div class="p-5 border-b border-brand-border flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <span class="material-symbols-outlined text-emerald-400">phone_in_talk</span>
+          <div>
+            <h4 class="text-base font-cinzel font-bold text-white">Connect with Civilian Client</h4>
+            <p class="text-[11px] text-slate-400 font-mono">Privileged Counsel Consultation & Representation Channel</p>
+          </div>
+        </div>
+        <button type="button" onclick="closeConnectModal()" class="text-slate-400 hover:text-white">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+
+      <div class="p-6 overflow-y-auto space-y-4 text-xs custom-scroll">
+        <div class="p-4 rounded-xl bg-brand-card border border-brand-border space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-white text-sm" id="connectCivilianName">mgdharan7@gmail.com</span>
+            <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-brand-gold text-brand-darkNavy" id="connectCaseId">CIV-2026-0001</span>
+          </div>
+          <div class="text-slate-300 text-xs" id="connectFactsSummary">Facts loading...</div>
+          <div class="text-[11px] text-slate-400 font-mono" id="connectJurisdiction">Jurisdiction: India</div>
+        </div>
+
+        <div class="space-y-1.5">
+          <label class="block font-mono font-bold text-slate-300 text-xs">
+            Advocate Response & Consultation Advice:
+          </label>
+          <textarea id="connectCounselMessage" rows="5" class="w-full p-3 rounded-xl bg-brand-card border border-brand-border text-slate-200 text-xs focus:outline-none focus:border-brand-gold font-sans" placeholder="State your legal opinion, recommended action (e.g. issuing notice), and consultation schedule..."></textarea>
+        </div>
+
+        <div class="p-3 rounded-lg bg-emerald-950/40 border border-emerald-800/60 text-[11px] text-emerald-300 flex items-center gap-2">
+          <span class="material-symbols-outlined text-base">verified_user</span>
+          <span>Connecting will update this matter's status to <strong>Counsel Connected • Consultation Scheduled</strong>.</span>
+        </div>
+      </div>
+
+      <div class="p-4 border-t border-brand-border bg-brand-card/50 flex flex-wrap items-center justify-between gap-2">
+        <a id="connectMailtoLink" href="#" class="px-3.5 py-2 rounded-lg bg-blue-950/60 hover:bg-blue-900 border border-blue-700 text-blue-300 hover:text-white font-semibold text-xs inline-flex items-center gap-1.5 transition-all">
+          <span class="material-symbols-outlined text-[16px]">mail</span>
+          <span>Open Direct Email Client</span>
+        </a>
+        <div class="flex items-center gap-2">
+          <button type="button" onclick="closeConnectModal()" class="px-3.5 py-2 rounded-lg bg-brand-card hover:bg-brand-cardLight border border-brand-border text-slate-300 text-xs font-semibold">
+            Cancel
+          </button>
+          <button type="button" onclick="sendCounselResponse()" id="btnSendCounselConnect" class="px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs flex items-center gap-1.5 shadow-lg shadow-emerald-900/40">
+            <span class="material-symbols-outlined text-[16px]">send</span>
+            <span>Send Advice & Connect</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let dashboardData = null;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      initAdvocateSession();
+      loadAdvocateDashboard();
+    });
+
+    function initAdvocateSession() {
+      try {
+        const raw = localStorage.getItem('nyaya_user');
+        if (raw) {
+          const user = JSON.parse(raw);
+          const el = document.getElementById('counselProfileDisplay');
+          const barNo = user.bar_council_no ? ` • Bar ${user.bar_council_no}` : '';
+          if (el) el.textContent = `${user.name || 'Advocate Counsel'}${barNo}`;
+        }
+      } catch (e) {}
+    }
+
+    async function loadAdvocateDashboard() {
+      try {
+        const res = await fetch('/api/advocate/dashboard');
+        const data = await res.json();
+        dashboardData = data;
+
+        // Render Metrics
+        document.getElementById('metricCivilianCount').textContent = data.civilian_cases.length;
+        document.getElementById('tabCivilianBadge').textContent = data.civilian_cases.length;
+        document.getElementById('metricActiveStatutes').textContent = data.statutes.active_count;
+
+        // Render Civilians
+        renderCivilianCases(data.civilian_cases);
+
+        // Render Statutes
+        renderStatutes(data.statutes.active_statutes.concat(data.statutes.repealed_statutes));
+
+        // Render Benefits
+        renderBenefits(data.advocate_benefits);
+
+      } catch (err) {
+        console.error("Dashboard error:", err);
+      }
+    }
+
+    function renderCivilianCases(cases) {
+      const tbody = document.getElementById('civilianCasesTbody');
+      if (!tbody) return;
+      tbody.innerHTML = '';
+
+      cases.forEach(c => {
+        const isConnected = !!c.advocate_connected;
+        const statusBadge = isConnected
+          ? '<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-emerald-950/80 text-emerald-300 border border-emerald-700">🟢 Connected</span>'
+          : '<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-amber-950/80 text-amber-300 border border-amber-700">🟡 Review Pending</span>';
+
+        const assignedName = c.assigned_advocate_name || 'Advocate Giridharan';
+
+        const tr = document.createElement('tr');
+        tr.className = "hover:bg-brand-card/80 transition-colors";
+        tr.innerHTML = `
+          <td class="p-3.5 font-mono text-[11px] text-brand-gold font-bold whitespace-nowrap">${c.case_id}</td>
+          <td class="p-3.5 whitespace-nowrap">
+            <div class="font-semibold text-white">${c.civilian_name}</div>
+            <div class="text-[11px] text-slate-400 font-mono">${c.jurisdiction} • ${c.contact_redacted}</div>
+          </td>
+          <td class="p-3.5">
+            <span class="px-2 py-0.5 rounded text-[11px] font-medium bg-brand-accent/40 text-blue-200 border border-brand-accent/60">${c.legal_domain}</span>
+          </td>
+          <td class="p-3.5 max-w-xs text-slate-300 leading-snug">
+            ${c.facts_summary}
+            <div class="text-[10px] text-slate-400 font-mono mt-1">Incident: ${c.incident_date}</div>
+          </td>
+          <td class="p-3.5">
+            <div class="font-medium text-slate-200 text-xs">${c.primary_law}</div>
+            <div class="text-[11px] text-slate-400 font-mono mt-0.5">🏛️ ${c.forum}</div>
+          </td>
+          <td class="p-3.5">
+            <div class="text-[11px] font-semibold text-brand-gold flex items-center gap-1">
+              <span class="material-symbols-outlined text-[13px]">person</span>
+              <span>${assignedName}</span>
+            </div>
+            <div class="mt-1">${statusBadge}</div>
+          </td>
+          <td class="p-3.5 text-right whitespace-nowrap space-x-1">
+            ${c.complaint_letter ? `
+              <button type="button" onclick="openComplaintLetterModal('${c.case_id}')" class="px-2.5 py-1.5 rounded bg-blue-950/60 hover:bg-blue-900 text-blue-300 hover:text-white border border-blue-700 text-[11px] font-semibold transition-all inline-flex items-center gap-1" title="View Civilian Complaint Letter">
+                <span class="material-symbols-outlined text-[14px]">article</span>
+                <span>Letter</span>
+              </button>
+            ` : ''}
+            <button type="button" onclick="openConnectModal('${c.case_id}')" class="px-2.5 py-1.5 rounded ${isConnected ? 'bg-emerald-950/80 text-emerald-300 border border-emerald-700' : 'bg-brand-gold text-brand-darkNavy hover:bg-brand-lightGold'} text-[11px] font-semibold transition-all inline-flex items-center gap-1" title="Connect Directly with Civilian">
+              <span class="material-symbols-outlined text-[14px]">phone_in_talk</span>
+              <span>${isConnected ? 'Connected' : 'Connect'}</span>
+            </button>
+            <button type="button" onclick="openPleadingModalForCase('${c.case_id}')" class="px-2.5 py-1.5 rounded bg-brand-card hover:bg-brand-cardLight text-slate-200 hover:text-white border border-brand-border text-[11px] font-semibold transition-all inline-flex items-center gap-1" title="Draft Court Pleading">
+              <span class="material-symbols-outlined text-[14px]">edit_document</span>
+              <span>Pleading</span>
+            </button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function renderStatutes(statutes) {
+      const tbody = document.getElementById('statutesTbody');
+      if (!tbody) return;
+      tbody.innerHTML = '';
+
+      statutes.forEach(s => {
+        const statusBadge = s.is_active
+          ? '<span class="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-emerald-950/80 text-emerald-300 border border-emerald-700">🟢 ACTIVE (IN FORCE)</span>'
+          : '<span class="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-rose-950/80 text-rose-300 border border-rose-700">🔴 REPEALED (HISTORICAL SAVINGS)</span>';
+
+        const tr = document.createElement('tr');
+        tr.className = "hover:bg-brand-card/80 transition-colors";
+        tr.innerHTML = `
+          <td class="p-3.5">
+            <div class="font-semibold text-white text-xs">${s.official_name}</div>
+            <div class="text-[11px] text-slate-400 font-mono">Key: ${s.key}</div>
+          </td>
+          <td class="p-3.5 font-mono text-[11px] text-slate-300">
+            <div>${s.act_number}</div>
+            <div class="text-[10px] text-slate-400">In Force: ${s.commencement_date}</div>
+          </td>
+          <td class="p-3.5 text-slate-300">${s.jurisdiction}</td>
+          <td class="p-3.5">${statusBadge}</td>
+          <td class="p-3.5 max-w-sm text-slate-300 leading-snug">
+            ${s.repealed_by 
+              ? `<span class="text-amber-300 font-medium">${s.repealed_by}</span>`
+              : '<span class="text-slate-400">Current substantive codified law. All sections live.</span>'}
+          </td>
+          <td class="p-3.5 font-mono text-center text-slate-200">
+            <span class="px-2 py-0.5 rounded bg-brand-darkNavy border border-brand-border text-xs font-bold">${s.sections_indexed}</span>
+          </td>
+          <td class="p-3.5 text-right whitespace-nowrap">
+            <a href="${s.official_source}" target="_blank" rel="noopener" class="text-brand-gold hover:underline text-[11px] font-mono inline-flex items-center gap-1">
+              <span>India Code</span>
+              <span class="material-symbols-outlined text-[12px]">open_in_new</span>
+            </a>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function renderBenefits(benefits) {
+      const grid = document.getElementById('benefitsGrid');
+      if (!grid) return;
+      grid.innerHTML = '';
+
+      benefits.forEach(b => {
+        const div = document.createElement('div');
+        div.className = "p-5 rounded-xl bg-brand-card/80 border border-brand-border space-y-3 flex flex-col justify-between hover:border-brand-gold/50 transition-all";
+        div.innerHTML = `
+          <div class="space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-brand-gold/20 text-brand-gold border border-brand-gold/40 uppercase">${b.badge}</span>
+              <span class="material-symbols-outlined text-brand-gold text-[18px]">verified</span>
+            </div>
+            <h4 class="text-base font-cinzel font-bold text-white">${b.title}</h4>
+            <div class="text-[11px] font-mono text-slate-400 bg-brand-darkNavy p-2 rounded border border-brand-border">
+              ⚖️ ${b.statutory_basis}
+            </div>
+            <p class="text-xs text-slate-300 leading-relaxed">${b.description}</p>
+          </div>
+
+          <div class="pt-3 border-t border-brand-border space-y-1.5 text-[11px]">
+            <div class="text-slate-400"><strong class="text-slate-300">Civilian Level:</strong> ${b.civilian_mode}</div>
+            <div class="text-brand-lightGold font-medium"><strong class="text-brand-gold">Advocate Console:</strong> ${b.advocate_mode}</div>
+          </div>
+        `;
+        grid.appendChild(div);
+      });
+    }
+
+    function switchAdvocateTab(tabId) {
+      const panes = ['civilians', 'statutes', 'research', 'benefits'];
+      panes.forEach(p => {
+        const paneEl = document.getElementById(`pane${p.charAt(0).toUpperCase() + p.slice(1)}`);
+        const btnEl = document.getElementById(`tabBtn${p.charAt(0).toUpperCase() + p.slice(1)}`);
+        if (p === tabId) {
+          paneEl.classList.remove('hidden');
+          btnEl.className = "px-4 py-2 rounded-lg bg-brand-gold text-brand-darkNavy font-semibold flex items-center gap-2 transition-all";
+        } else {
+          paneEl.classList.add('hidden');
+          btnEl.className = "px-4 py-2 rounded-lg bg-brand-card text-slate-300 hover:text-white hover:bg-brand-cardLight flex items-center gap-2 transition-all";
+        }
+      });
+    }
+
+    function filterCivilianTable() {
+      const val = document.getElementById('filterCivilianInput').value.toLowerCase();
+      if (!dashboardData) return;
+      const filtered = dashboardData.civilian_cases.filter(c => 
+        c.civilian_name.toLowerCase().includes(val) ||
+        c.legal_domain.toLowerCase().includes(val) ||
+        c.facts_summary.toLowerCase().includes(val) ||
+        c.jurisdiction.toLowerCase().includes(val)
+      );
+      renderCivilianCases(filtered);
+    }
+
+    function filterStatuteStatus(status) {
+      if (!dashboardData) return;
+      ['all', 'active', 'repealed'].forEach(s => {
+        const btn = document.getElementById(`statuteFilter${s.charAt(0).toUpperCase() + s.slice(1)}`);
+        if (s === status) {
+          btn.className = "px-3 py-1.5 rounded bg-brand-gold text-brand-darkNavy font-semibold";
+        } else {
+          btn.className = "px-3 py-1.5 rounded bg-brand-card border border-brand-border text-slate-300 font-semibold";
+        }
+      });
+
+      if (status === 'all') {
+        renderStatutes(dashboardData.statutes.active_statutes.concat(dashboardData.statutes.repealed_statutes));
+      } else if (status === 'active') {
+        renderStatutes(dashboardData.statutes.active_statutes);
+      } else {
+        renderStatutes(dashboardData.statutes.repealed_statutes);
+      }
+    }
+
+    function setResearchQuery(q) {
+      document.getElementById('counselSearchInput').value = q;
+      fetchCounselBrief();
+    }
+
+    async function fetchCounselBrief() {
+      const q = document.getElementById('counselSearchInput').value.trim();
+      if (!q) return;
+      const btn = document.getElementById('btnGenerateBrief');
+      const out = document.getElementById('counselBriefResult');
+      btn.disabled = true;
+      btn.innerHTML = `<span class="material-symbols-outlined text-[16px] animate-spin">refresh</span><span>Synthesizing Counsel Brief...</span>`;
+
+      try {
+        const res = await fetch('/api/advocate/counsel-brief', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ query: q })
+        });
+        const data = await res.json();
+
+        out.classList.remove('hidden');
+        out.innerHTML = `
+          <div class="p-6 rounded-2xl bg-brand-darkNavy border border-brand-gold/40 shadow-2xl space-y-6">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-brand-border pb-4">
+              <div>
+                <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-brand-gold text-brand-darkNavy uppercase">${data.domain}</span>
+                <h4 class="text-xl font-cinzel font-bold text-white mt-1">${data.primary_act}</h4>
+                <div class="text-xs text-brand-lightGold font-mono mt-0.5">${data.applicable_sections.join(" • ")}</div>
+              </div>
+              <div class="text-right">
+                <span class="px-2.5 py-1 rounded bg-blue-950/80 border border-blue-700 text-blue-300 text-[10px] font-mono font-bold">${data.privilege_notice}</span>
+                <div class="text-[11px] text-slate-400 font-mono mt-1">Generated: ${new Date(data.generated_at).toLocaleString()}</div>
+              </div>
+            </div>
+
+            <!-- Essential Ingredients to Prove -->
+            <div class="space-y-2">
+              <h5 class="text-xs font-mono font-bold uppercase tracking-wider text-brand-gold flex items-center gap-1.5">
+                <span class="material-symbols-outlined text-[16px]">fact_check</span>
+                Essential Statutory Ingredients (Actus Reus / Mens Rea)
+              </h5>
+              <ul class="text-xs text-slate-200 space-y-1.5 list-disc list-inside bg-brand-card/50 p-4 rounded-xl border border-brand-border">
+                ${data.essential_elements.map(e => `<li>${e}</li>`).join('')}
+              </ul>
+            </div>
+
+            <!-- Precedents & Bench Coram -->
+            <div class="space-y-2">
+              <h5 class="text-xs font-mono font-bold uppercase tracking-wider text-brand-gold flex items-center gap-1.5">
+                <span class="material-symbols-outlined text-[16px]">account_balance</span>
+                Binding Judicial Authorities & Ratio Decidendi
+              </h5>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                ${data.binding_precedents.map(p => `
+                  <div class="p-4 rounded-xl bg-brand-card border border-brand-border space-y-1.5">
+                    <div class="font-cinzel font-bold text-white text-xs">${p.citation}</div>
+                    <div class="text-[10px] text-brand-gold font-mono">${p.bench}</div>
+                    <p class="text-xs text-slate-300 leading-relaxed">${p.ratio}</p>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+
+            <!-- Judicial Conflicts & Limitations -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div class="p-4 rounded-xl bg-brand-card/50 border border-brand-border space-y-1.5">
+                <div class="text-xs font-mono font-bold text-amber-300 uppercase flex items-center gap-1">
+                  <span class="material-symbols-outlined text-[16px]">call_split</span>
+                  Judicial Conflicts & Exceptions
+                </div>
+                <p class="text-xs text-slate-300 leading-relaxed">${data.conflicting_judicial_views}</p>
+              </div>
+
+              <div class="p-4 rounded-xl bg-brand-card/50 border border-brand-border space-y-1.5">
+                <div class="text-xs font-mono font-bold text-emerald-300 uppercase flex items-center gap-1">
+                  <span class="material-symbols-outlined text-[16px]">timer</span>
+                  Limitation & Procedural Bar
+                </div>
+                <p class="text-xs text-slate-300 leading-relaxed">${data.limitation_period_rule}</p>
+              </div>
+            </div>
+
+            <!-- Trial Strategies -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2 border-t border-brand-border">
+              <div class="space-y-1.5">
+                <div class="text-xs font-mono font-bold text-blue-400 uppercase">🎯 Prosecution / Plaintiff Strategy</div>
+                <p class="text-xs text-slate-300 leading-relaxed bg-brand-card/40 p-3 rounded-lg border border-brand-border">${data.counsel_prosecution_strategy}</p>
+              </div>
+              <div class="space-y-1.5">
+                <div class="text-xs font-mono font-bold text-rose-400 uppercase">🛡️ Defense / Respondent Angles</div>
+                <p class="text-xs text-slate-300 leading-relaxed bg-brand-card/40 p-3 rounded-lg border border-brand-border">${data.counsel_defense_strategy}</p>
+              </div>
+            </div>
+          </div>
+        `;
+        out.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      } catch (err) {
+        console.error(err);
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = `<span class="material-symbols-outlined text-[18px]">search</span><span>Generate Counsel Brief</span>`;
+      }
+    }
+
+    function openPleadingModalForCase(caseId) {
+      if (!dashboardData) return;
+      const c = dashboardData.civilian_cases.find(x => x.case_id === caseId);
+      if (!c) return;
+
+      let advName = c.assigned_advocate_name || 'Advocate Giridharan';
+      let advEmail = c.assigned_advocate_email || 'mgdharan7@gmail.com';
+      let barNo = 'D/1847/2019';
+
+      try {
+        const raw = localStorage.getItem('nyaya_user');
+        if (raw) {
+          const u = JSON.parse(raw);
+          if (u.name) advName = u.name;
+          if (u.email) advEmail = u.email;
+          if (u.bar_council_no) barNo = u.bar_council_no;
+        }
+      } catch (e) {}
+
+      document.getElementById('pleadingModalTitle').textContent = `Legal Notice / Pleading Draft: ${c.case_id} (${c.civilian_name})`;
+      document.getElementById('pleadingModalBody').innerHTML = `
+<pre class="whitespace-pre-wrap leading-relaxed text-slate-200">
+LEGAL DEMAND NOTICE
+(REGISTERED POST WITH ACKNOWLEDGEMENT DUE / SPEED POST)
+
+DATE: ${new Date().toLocaleDateString('en-GB')}
+FROM:
+${advName.toUpperCase()}
+HIGH COURT & SUPREME COURT BAR
+ENROLLMENT NO: ${barNo}
+EMAIL: ${advEmail}
+
+TO:
+THE OPPOSITE PARTY / RESPONDENT ENTITY
+(CONCERNED OFFICIAL / SERVICE PROVIDER)
+
+UNDER INSTRUCTIONS FROM MY CLIENT:
+${c.civilian_name}, RESIDENT OF ${c.jurisdiction.toUpperCase()}, INDIA.
+
+SUBJECT: STATUTORY DEMAND NOTICE UNDER ${c.primary_law.toUpperCase()} REGARDING ${c.legal_domain.toUpperCase()}.
+
+SIR / MADAM,
+
+Under express instructions from my client above-named, I hereby serve upon you this formal Statutory Notice of Demand:
+
+1. That my client is a bona fide citizen who entered into transactions with your establishment on or about ${c.incident_date}.
+2. STATEMENT OF MATERIAL FACTS:
+   ${c.facts_summary}
+3. STATUTORY VIOLATION & LIABILITY:
+   That your acts and omissions constitute a direct contravention of ${c.primary_law}. Your failure to render lawful performance has caused pecuniary damage, mental agony, and disruption to my client's statutory rights.
+4. PEREMPTORY DEMAND:
+   I hereby call upon you to redress the said grievance within FIFTEEN (15) DAYS from the date of receipt of this notice, failing which my client has given me strict instructions to initiate formal legal proceedings before the competent forum: ${c.forum.toUpperCase()}, at your sole cost and consequence.
+
+COPIES RETAINED IN CHAMBERS UNDER SECTION 132 OF THE BHARATIYA SAKSHYA ADHINIYAM, 2023.
+
+Yours faithfully,
+
+(${advName.toUpperCase()})
+COUNSEL FOR THE CLAIMANT
+</pre>
+      `;
+      document.getElementById('pleadingModal').classList.remove('hidden');
+    }
+
+    function closePleadingModal() {
+      document.getElementById('pleadingModal').classList.add('hidden');
+    }
+
+    function copyPleadingText() {
+      const text = document.getElementById('pleadingModalBody').innerText;
+      navigator.clipboard.writeText(text);
+      const btn = document.getElementById('btnCopyPleading');
+      btn.innerHTML = `<span class="material-symbols-outlined text-[16px]">check</span><span>Copied to Clipboard!</span>`;
+      setTimeout(() => {
+        btn.innerHTML = `<span class="material-symbols-outlined text-[16px]">content_copy</span><span>Copy Pleading Draft</span>`;
+      }, 2000);
+    }
+
+    // ── Civilian Complaint Letter View ──────────────────────────────────────────
+    function openComplaintLetterModal(caseId) {
+      if (!dashboardData) return;
+      const c = dashboardData.civilian_cases.find(x => x.case_id === caseId);
+      if (!c) return;
+
+      document.getElementById('complaintModalTitle').textContent = `Client Complaint Letter: ${c.case_id} (${c.civilian_name})`;
+      document.getElementById('complaintModalMeta').textContent = `Assigned to: ${c.assigned_advocate_name || 'Advocate Giridharan'} • ${c.jurisdiction}`;
+      document.getElementById('complaintModalBody').innerHTML = `
+<pre class="whitespace-pre-wrap leading-relaxed text-slate-200">
+${c.complaint_letter || 'No separate complaint letter was attached. Case facts:\n' + c.facts_summary}
+</pre>
+      `;
+      document.getElementById('complaintLetterModal').classList.remove('hidden');
+    }
+
+    function closeComplaintLetterModal() {
+      document.getElementById('complaintLetterModal').classList.add('hidden');
+    }
+
+    function copyComplaintLetterText() {
+      const text = document.getElementById('complaintModalBody').innerText;
+      navigator.clipboard.writeText(text);
+      const btn = document.getElementById('btnCopyComplaint');
+      btn.innerHTML = `<span class="material-symbols-outlined text-[16px]">check</span><span>Copied to Clipboard!</span>`;
+      setTimeout(() => {
+        btn.innerHTML = `<span class="material-symbols-outlined text-[16px]">content_copy</span><span>Copy Complaint Text</span>`;
+      }, 2000);
+    }
+
+    // ── Connect Directly with Civilian Client ──────────────────────────────────
+    let activeConnectCaseId = null;
+
+    function openConnectModal(caseId) {
+      if (!dashboardData) return;
+      const c = dashboardData.civilian_cases.find(x => x.case_id === caseId);
+      if (!c) return;
+      activeConnectCaseId = caseId;
+
+      document.getElementById('connectCivilianName').textContent = `${c.civilian_name} (${c.contact_redacted || 'Verified Civilian'})`;
+      document.getElementById('connectCaseId').textContent = c.case_id;
+      document.getElementById('connectFactsSummary').textContent = c.facts_summary;
+      document.getElementById('connectJurisdiction').textContent = `Jurisdiction: ${c.jurisdiction} • Law: ${c.primary_law}`;
+
+      const defaultMsg = c.advocate_response 
+        ? c.advocate_response.message
+        : `Dear ${c.civilian_name},\n\nI have reviewed your legal grievance regarding ${c.facts_summary.slice(0, 80)}...\n\nUnder ${c.primary_law}, your matter is actionable. I am preparing a preliminary Statutory Demand Notice and would like to schedule a formal consultation to examine your original payment transaction records and communication logs.\n\nPlease confirm your availability for a 20-minute video / chamber consultation.`;
+
+      document.getElementById('connectCounselMessage').value = defaultMsg;
+
+      const emailSubject = encodeURIComponent(`Legal Consultation & Representation: Case ${c.case_id}`);
+      const emailBody = encodeURIComponent(defaultMsg);
+      const mailto = `mailto:${c.civilian_email || 'mgdharan7@gmail.com'}?subject=${emailSubject}&body=${emailBody}`;
+      document.getElementById('connectMailtoLink').href = mailto;
+
+      document.getElementById('connectModal').classList.remove('hidden');
+    }
+
+    function closeConnectModal() {
+      document.getElementById('connectModal').classList.add('hidden');
+      activeConnectCaseId = null;
+    }
+
+    async function sendCounselResponse() {
+      if (!activeConnectCaseId) return;
+      const msg = document.getElementById('connectCounselMessage').value.trim();
+      if (!msg) {
+        alert("Please enter your legal advice / consultation message.");
+        return;
+      }
+
+      let advocateName = 'Advocate Giridharan';
+      try {
+        const raw = localStorage.getItem('nyaya_user');
+        if (raw) {
+          const u = JSON.parse(raw);
+          if (u.name) advocateName = u.name;
+        }
+      } catch (e) {}
+
+      const btn = document.getElementById('btnSendCounselConnect');
+      btn.disabled = true;
+      btn.innerHTML = `<span class="material-symbols-outlined text-[16px] animate-spin">refresh</span><span>Connecting...</span>`;
+
+      try {
+        const res = await fetch('/api/advocate/connect-client', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            case_id: activeConnectCaseId,
+            counsel_message: msg,
+            advocate_name: advocateName
+          })
+        });
+
+        if (res.ok) {
+          alert(`✅ COUNSEL CONNECTED!\n\nYour consultation message has been recorded and connected to Case ${activeConnectCaseId}.\nStatus updated to: Counsel Connected • Consultation Scheduled.`);
+          closeConnectModal();
+          loadAdvocateDashboard(); // Refresh UI in real time!
+        } else {
+          const err = await res.json();
+          alert(`Error connecting to civilian: ${err.detail || 'Failed'}`);
+        }
+      } catch (e) {
+        alert(`Network error: ${e.message}`);
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = `<span class="material-symbols-outlined text-[16px]">send</span><span>Send Advice & Connect</span>`;
+      }
+    }
+
+    function openCreatorModal() {
+      document.getElementById('creatorContactModal').classList.remove('hidden');
+    }
+
+    function closeCreatorModal() {
+      document.getElementById('creatorContactModal').classList.add('hidden');
+    }
+  </script>
+
+  <!-- Creator & Founder Spotlight Modal -->
+  <div id="creatorContactModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-brand-darkNavy border border-brand-gold/40 rounded-2xl max-w-xl w-full max-h-[90vh] flex flex-col shadow-2xl overflow-hidden">
+      <div class="p-5 border-b border-brand-border flex items-center justify-between bg-brand-card">
+        <div class="flex items-center gap-2">
+          <span class="material-symbols-outlined text-brand-gold">stars</span>
+          <div>
+            <h4 class="text-base font-cinzel font-bold text-white">About the Creator &amp; Founder</h4>
+            <p class="text-[11px] text-slate-400 font-mono">NyayaAI Architecture &amp; Vision</p>
+          </div>
+        </div>
+        <button type="button" onclick="closeCreatorModal()" class="text-slate-400 hover:text-white">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+
+      <div class="p-6 overflow-y-auto space-y-5 text-xs text-slate-300 custom-scroll">
+        <div class="flex items-center gap-4 p-4 rounded-xl bg-brand-card/90 border border-brand-gold/30">
+          <img src="/static/giridharan.jpg" alt="Giridharan" class="w-20 h-20 rounded-2xl object-cover border-2 border-brand-gold shrink-0 shadow-lg">
+          <div>
+            <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-brand-gold text-brand-darkNavy uppercase">Founder &amp; Creator</span>
+            <h3 class="text-xl font-cinzel font-bold text-white mt-1">Giridharan</h3>
+            <p class="text-xs text-brand-lightGold font-mono">Advocate &amp; Legal-AI Engineer</p>
+            <div class="text-[11px] text-slate-400 font-mono mt-0.5">Bar Enrollment: D/1847/2019</div>
+          </div>
+        </div>
+
+        <div class="space-y-2">
+          <h5 class="text-xs font-mono font-bold text-brand-gold uppercase tracking-wider">Mission Statement:</h5>
+          <p class="text-xs text-slate-200 leading-relaxed bg-brand-card/40 p-4 rounded-xl border border-brand-border">
+            "<strong>Giridharan</strong> created and engineered <strong>NyayaAI</strong> with a dedicated mission: to democratize legal awareness for Indian citizens while furnishing advocates with trial-ready, Bar Council compliant statutory intelligence. Grounded strictly in codified Gazette statutes, the 2024 Sanhitas, and binding Supreme Court precedents, NyayaAI eliminates legal opacity and empowers justice for all."
+          </p>
+        </div>
+
+        <div class="p-4 rounded-xl bg-brand-card/60 border border-brand-border space-y-2 font-mono text-[11px]">
+          <div class="flex items-center justify-between">
+            <span class="text-slate-400">Direct Email:</span>
+            <a href="mailto:mgdharan7@gmail.com" class="text-brand-gold hover:underline">mgdharan7@gmail.com</a>
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="text-slate-400">Jurisdiction:</span>
+            <span class="text-slate-200">Tamil Nadu &amp; Delhi, India</span>
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="text-slate-400">Privilege:</span>
+            <span class="text-emerald-400">Sec 132 BSA Confidentiality</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-4 border-t border-brand-border bg-brand-card/50 flex justify-end">
+        <button type="button" onclick="closeCreatorModal()" class="px-4 py-2 rounded-lg bg-brand-gold text-brand-darkNavy font-semibold text-xs">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+  </script>
+</body>
+</html>
+
