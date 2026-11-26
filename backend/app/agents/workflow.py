@@ -28,13 +28,14 @@ def _fallback(question: str, sources: list[dict], language: str) -> str:
     return "\n".join(lines)
 
 
-def run_legal_workflow(question: str, language: str = "English", jurisdiction: str = "India", incident_date: str | None = None, context: str | None = None):
+def run_legal_workflow(question: str, language: str = "English", jurisdiction: str = "India", incident_date: str | None = None, context: str | None = None, query_embedding: list[float] | None = None):
     pipeline = NyayaMultiAgentPipeline()
     state = LegalAgentState(
         question=question,
         language=language,
         jurisdiction=jurisdiction,
         incident_date=incident_date,
-        context=context
+        context=context,
+        query_embedding=query_embedding
     )
     return pipeline.run(state)

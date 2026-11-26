@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NyayaAI Admin Monitoring & Data Engineering Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Cinzel:wght@600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              navy: "#0a192f",
+              darkNavy: "#040c18",
+              gold: "#d4af37",
+              lightGold: "#f9f1d8",
+              border: "#1e293b",
+              card: "#0d213c",
+              cardLight: "#132b4d"
+            }
+          },
+          fontFamily: {
+            cinzel: ["Cinzel", "serif"],
+            sans: ["Inter", "sans-serif"],
+            mono: ["JetBrains Mono", "monospace"]
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    body {
+      background: radial-gradient(circle at 15% 15%, #071529 0%, #030812 90%);
+      color: #e2e8f0;
+      min-height: 100vh;
+    }
+  </style>
+</head>
+<body class="font-sans antialiased">
+  <header class="border-b border-brand-border/80 bg-brand-darkNavy/90 backdrop-blur sticky top-0 z-50 px-4 lg:px-8 py-3.5">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-lg bg-brand-gold/10 border border-brand-gold/30 flex items-center justify-center text-brand-gold text-2xl">
+          🛡️
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="text-xl font-cinzel font-bold text-white tracking-wide">NyayaAI</h1>
+            <span class="px-2 py-0.5 rounded text-[11px] font-mono font-bold bg-brand-gold text-brand-darkNavy uppercase">Admin &amp; Data Ops</span>
+          </div>
+          <p class="text-xs text-slate-400">Medallion ETL Pipeline, Semantic Cache &amp; Security Telemetry</p>
+        </div>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-2.5">
+        <a href="/app" class="px-3 py-1.5 rounded-lg bg-brand-card hover:bg-brand-cardLight border border-brand-border text-xs font-semibold text-slate-200">Citizen App</a>
+        <a href="/advocate" class="px-3 py-1.5 rounded-lg bg-brand-card hover:bg-brand-cardLight border border-brand-border text-xs font-semibold text-slate-200">Advocate Console</a>
+        <button type="button" onclick="handleAdminSignOut()" class="px-3 py-1.5 rounded-lg bg-red-950/50 hover:bg-red-900/70 border border-red-800/50 text-red-200 text-xs font-semibold flex items-center gap-1">
+          <span class="material-symbols-outlined text-[15px]">logout</span>
+          <span>Sign Out</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-4 lg:px-8 py-7 space-y-7">
+    <!-- Date Filter & Controls Bar -->
+    <div class="flex flex-wrap items-center justify-between gap-4 p-4 rounded-xl bg-brand-card/80 border border-brand-border">
+      <div class="flex flex-wrap items-center gap-2">
+        <span class="text-xs font-mono uppercase text-slate-400 mr-2">Date Window:</span>
+        <button onclick="setRange('today')" id="btnRangeToday" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-brand-darkNavy border border-brand-border text-slate-300">Today</button>
+        <button onclick="setRange('7d')" id="btnRange7d" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-brand-darkNavy border border-brand-border text-slate-300">Last 7 Days</button>
+        <button onclick="setRange('30d')" id="btnRange30d" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-brand-gold text-brand-darkNavy">Last 30 Days</button>
+        <div class="flex items-center gap-1.5 ml-2">
+          <input type="date" id="customStart" class="px-2 py-1 rounded bg-brand-darkNavy border border-brand-border text-xs text-slate-200">
+          <span class="text-xs text-slate-400">to</span>
+          <input type="date" id="customEnd" class="px-2 py-1 rounded bg-brand-darkNavy border border-brand-border text-xs text-slate-200">
+          <button onclick="setRange('custom')" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-blue-900/70 hover:bg-blue-800 text-blue-100">Apply</button>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <button onclick="triggerEtlPipeline()" id="btnRunEtl" class="px-3.5 py-1.5 rounded-lg bg-emerald-700 hover:bg-emerald-600 text-white text-xs font-semibold flex items-center gap-1.5">
+          <span class="material-symbols-outlined text-[16px]">sync</span>
+          <span>Run Bronze→Silver→Gold ETL</span>
+        </button>
+        <button onclick="invalidateLegalCache()" id="btnClearCache" class="px-3.5 py-1.5 rounded-lg bg-amber-700/80 hover:bg-amber-600 text-white text-xs font-semibold flex items-center gap-1.5">
+          <span class="material-symbols-outlined text-[16px]">cached</span>
+          <span>Invalidate Cache</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- System Health Banner -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4" id="healthCards">
+      <div class="p-4 rounded-xl bg-brand-card/90 border border-brand-border">
+        <div class="text-[11px] font-mono text-slate-400 uppercase">API Uptime</div>
+        <div id="hUptime" class="text-xl font-bold font-mono text-emerald-400 mt-1">--</div>
+      </div>
+      <div class="p-4 rounded-xl bg-brand-card/90 border border-brand-border">
+        <div class="text-[11px] font-mono text-slate-400 uppercase">Database Pool</div>
+        <div id="hDb" class="text-xl font-bold font-mono text-emerald-400 mt-1">--</div>
+      </div>
+      <div class="p-4 rounded-xl bg-brand-card/90 border border-brand-border">
+        <div class="text-[11px] font-mono text-slate-400 uppercase">Semantic Cache</div>
+        <div id="hCache" class="text-xl font-bold font-mono text-brand-gold mt-1">--</div>
+      </div>
+      <div class="p-4 rounded-xl bg-brand-card/90 border border-brand-border">
+        <div class="text-[11px] font-mono text-slate-400 uppercase">AI Error Rate</div>
+        <div id="hErrorRate" class="text-xl font-bold font-mono text-slate-100 mt-1">--</div>
+      </div>
+    </div>
+
+    <!-- User & Session Analytics -->
+    <section class="space-y-3">
+      <h2 class="text-sm font-mono font-bold uppercase tracking-wider text-brand-gold">1. User &amp; Authentication Analytics</h2>
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-3">
+        <div class="p-4 rounded-xl bg-brand-card border border-brand-border">
+          <div class="text-[11px] text-slate-400">Total Users</div>
+          <div id="mTotalUsers" class="text-2xl font-bold font-mono text-white mt-1">0</div>
+        </div>
+        <div class="p-4 rounded-xl bg-brand-card border border-brand-border">
+          <div class="text-[11px] text-slate-400">Daily Active (DAU)</div>
+          <div id="mDau" class="text-2xl font-bold font-mono text-emerald-400 mt-1">0</div>
+        </div>
+        <div class="p-4 rounded-xl bg-brand-card border border-brand-border">
+          <div class="text-[11px] text-slate-400">Monthly Active (MAU)</div>
+          <div id="mMau" class="text-2xl font-bold font-mono text-blue-300 mt-1">0</div>
+        </div>
+        <div class="p-4 rounded-xl bg-brand-card border border-brand-border">
+          <div class="text-[11px] text-slate-400">Active Sessions</div>
+          <div id="mActiveSess" class="text-2xl font-bold font-mono text-brand-gold mt-1">0</div>
+        </div>
+        <div class="p-4 rounded-xl bg-brand-card border border-brand-border">
+          <div class="text-[11px] text-slate-400">Total Logins</div>
+          <div id="mLogins" class="text-2xl font-bold font-mono text-white mt-1">0</div>
+        </div>
+        <div class="p-4 rounded-xl bg-brand-card border border-brand-border">
+          <div class="text-[11px] text-slate-400">Failed Logins</div>
+          <div id="mFailedLogins" class="text-2xl font-bold font-mono text-rose-400 mt-1">0</div>
+        </div>
+        <div class="p-4 rounded-xl bg-brand-card border border-brand-border">
+          <div class="text-[11px] text-slate-400">Avg Session (sec)</div>
+          <div id="mAvgSess" class="text-2xl font-bold font-mono text-slate-200 mt-1">0s</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- AI Optimization & Cache Analytics -->
+    <section class="space-y-3">
+      <h2 class="text-sm font-mono font-bold uppercase tracking-wider text-brand-gold">2. AI Requests, Token Cost &amp; Cache Optimization</h2>
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+        <div class="p-4 rounded-xl bg-brand-card border border-brand-border">
+          <div class="text-[11px] text-slate-400">Total AI Requests</div>
+          <div id="mAiTotal" class="text-2xl font-bold font-mono text-white mt-1">0</div>
+          <div id="mAiRates" class="text-[11px] text-slate-400 mt-1">0/day • 0/user</div>
+        </div>
+        <div class="p-4 rounded-xl bg-brand-card border border-brand-border">
+          <div class="text-[11px] text-slate-400">Avg Response Latency</div>
+          <div id="mAiLatency" class="text-2xl font-bold font-mono text-sky-300 mt-1">0 ms</div>
+          <div id="mAiFailed" class="text-[11px] text-rose-400 mt-1">0 failed requests</div>
+        </div>
+        <div class="p-4 rounded-xl bg-brand-card border border-brand-border">
+          <div class="text-[11px] text-slate-400">Cache Hit Ratio</div>
+          <div id="mCacheRatio" class="text-2xl font-bold font-mono text-emerald-400 mt-1">0%</div>
+          <div id="mCacheSaved" class="text-[11px] text-emerald-300 mt-1">0 LLM calls saved</div>
+        </div>
+        <div class="p-4 rounded-xl bg-brand-card border border-brand-border">
+          <div class="text-[11px] text-slate-400">Tokens (In / Out)</div>
+          <div id="mTokens" class="text-xl font-bold font-mono text-white mt-1">0 / 0</div>
+          <div class="text-[11px] text-slate-400 mt-1">Tracked via provider metadata</div>
+        </div>
+        <div class="p-4 rounded-xl bg-brand-card border border-brand-border">
+          <div class="text-[11px] text-slate-400">Estimated Cost / Saved</div>
+          <div id="mCost" class="text-xl font-bold font-mono text-brand-gold mt-1">$0.0000</div>
+          <div id="mCostSaved" class="text-[11px] text-emerald-400 mt-1">Saved: $0.0000</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Medallion Data Engineering Pipeline -->
+    <section class="space-y-3">
+      <h2 class="text-sm font-mono font-bold uppercase tracking-wider text-brand-gold">3. Data Engineering Pipeline (Bronze → Silver → Gold)</h2>
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+        <div class="p-4 rounded-xl bg-brand-card border border-amber-700/40">
+          <div class="text-[11px] text-amber-300 font-mono">BRONZE (Raw)</div>
+          <div id="pBronze" class="text-2xl font-bold font-mono text-white mt-1">0</div>
+        </div>
+        <div class="p-4 rounded-xl bg-brand-card border border-slate-500/40">
+          <div class="text-[11px] text-slate-300 font-mono">SILVER (Clean)</div>
+          <div id="pSilver" class="text-2xl font-bold font-mono text-white mt-1">0</div>
+        </div>
+        <div class="p-4 rounded-xl bg-brand-card border border-brand-gold/50">
+          <div class="text-[11px] text-brand-gold font-mono">GOLD (Daily Aggs)</div>
+          <div id="pGold" class="text-2xl font-bold font-mono text-brand-gold mt-1">0</div>
+        </div>
+        <div class="p-4 rounded-xl bg-brand-card border border-brand-border">
+          <div class="text-[11px] text-slate-400">Duplicates Removed</div>
+          <div id="pDupes" class="text-2xl font-bold font-mono text-sky-300 mt-1">0</div>
+        </div>
+        <div class="p-4 rounded-xl bg-brand-card border border-brand-border">
+          <div class="text-[11px] text-slate-400">DLQ Quarantined</div>
+          <div id="pDlq" class="text-2xl font-bold font-mono text-rose-400 mt-1">0</div>
+        </div>
+        <div class="p-4 rounded-xl bg-brand-card border border-brand-border">
+          <div class="text-[11px] text-slate-400">ETL Runtime</div>
+          <div id="pExecMs" class="text-xl font-bold font-mono text-emerald-400 mt-1">0 ms</div>
+          <div id="pLastRun" class="text-[10px] text-slate-400 truncate mt-1">--</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Daily Trend Chart & Model Breakdown -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div class="lg:col-span-2 p-5 rounded-xl bg-brand-card border border-brand-border">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-sm font-semibold text-white">Daily AI Requests &amp; Cache Hits</h3>
+          <span class="text-[11px] font-mono text-slate-400">Gold Layer Time Series</span>
+        </div>
+        <div id="dailyChart" class="h-48 flex items-end gap-2 pt-4 border-b border-brand-border"></div>
+      </div>
+
+      <div class="p-5 rounded-xl bg-brand-card border border-brand-border">
+        <h3 class="text-sm font-semibold text-white mb-4">Model &amp; Cache Usage</h3>
+        <div id="modelBreakdown" class="space-y-3 text-xs"></div>
+      </div>
+    </div>
+
+    <!-- Recent Sessions & Admin Audit Logs (Privacy-Safe: zero chat text) -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div class="p-5 rounded-xl bg-brand-card border border-brand-border overflow-x-auto">
+        <h3 class="text-sm font-semibold text-white mb-3">Recent Authenticated Sessions</h3>
+        <table class="w-full text-left text-xs">
+          <thead class="text-slate-400 border-b border-brand-border font-mono">
+            <tr>
+              <th class="py-2 pr-3">User</th>
+              <th class="py-2 pr-3">Role</th>
+              <th class="py-2 pr-3">Duration</th>
+              <th class="py-2">Status</th>
+            </tr>
+          </thead>
+          <tbody id="sessionsTableBody" class="divide-y divide-brand-border/50"></tbody>
+        </table>
+      </div>
+
+      <div class="p-5 rounded-xl bg-brand-card border border-brand-border overflow-x-auto">
+        <h3 class="text-sm font-semibold text-white mb-3">Administrator Audit Logs</h3>
+        <table class="w-full text-left text-xs">
+          <thead class="text-slate-400 border-b border-brand-border font-mono">
+            <tr>
+              <th class="py-2 pr-3">Action</th>
+              <th class="py-2 pr-3">Target</th>
+              <th class="py-2">Timestamp (UTC)</th>
+            </tr>
+          </thead>
+          <tbody id="auditTableBody" class="divide-y divide-brand-border/50"></tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    let currentRange = '30d';
+
+    function setRange(r) {
+      currentRange = r;
+      ['today', '7d', '30d'].forEach(k => {
+        const el = document.getElementById(`btnRange${k === 'today' ? 'Today' : (k === '7d' ? '7d' : '30d')}`);
+        if (el) {
+          el.className = (k === r)
+            ? 'px-3 py-1.5 rounded-lg text-xs font-semibold bg-brand-gold text-brand-darkNavy'
+            : 'px-3 py-1.5 rounded-lg text-xs font-semibold bg-brand-darkNavy border border-brand-border text-slate-300';
+        }
+      });
+      loadAdminDashboard();
+    }
+
+    async function verifyAdminAuth() {
+      try {
+        const res = await fetch('/api/auth/me', { credentials: 'same-origin' });
+        if (!res.ok) {
+          window.location.replace('/login');
+          return false;
+        }
+        const d = await res.json();
+        if (!d.user || d.user.role !== 'admin') {
+          window.location.replace('/app');
+          return false;
+        }
+        return true;
+      } catch (e) {
+        window.location.replace('/login');
+        return false;
+      }
+    }
+
+    async function loadAdminDashboard() {
+      const ok = await verifyAdminAuth();
+      if (!ok) return;
+
+      let url = `/api/admin/analytics?range=${encodeURIComponent(currentRange)}`;
+      if (currentRange === 'custom') {
+        const s = document.getElementById('customStart').value;
+        const e = document.getElementById('customEnd').value;
+        if (s && e) url += `&start=${encodeURIComponent(s)}&end=${encodeURIComponent(e)}`;
+      }
+
+      const [res, auditRes] = await Promise.all([
+        fetch(url, { credentials: 'same-origin' }),
+        fetch('/api/admin/audit-logs?limit=12', { credentials: 'same-origin' })
+      ]);
+
+      if (res.status === 401 || res.status === 403) {
+        window.location.replace('/login');
+        return;
+      }
+
+      const data = await res.json();
+      const um = data.user_metrics || {};
+      const am = data.ai_metrics || {};
+      const pm = data.pipeline_metrics || {};
+      const sh = data.system_health || {};
+
+      document.getElementById('hUptime').textContent = `${Math.round(sh.api_uptime_sec || 0)}s`;
+      document.getElementById('hDb').textContent = sh.database_connected ? 'Connected (WAL)' : 'Degraded';
+      document.getElementById('hCache').textContent = `${pm.active_cache_entries || 0} Valid Entries`;
+      document.getElementById('hErrorRate').textContent = `${sh.error_rate_pct || 0}%`;
+
+      document.getElementById('mTotalUsers').textContent = um.total_registered_users ?? 0;
+      document.getElementById('mDau').textContent = um.daily_active_users ?? 0;
+      document.getElementById('mMau').textContent = um.monthly_active_users ?? 0;
+      document.getElementById('mActiveSess').textContent = um.active_sessions ?? 0;
+      document.getElementById('mLogins').textContent = um.total_logins ?? 0;
+      document.getElementById('mFailedLogins').textContent = um.failed_logins ?? 0;
+      document.getElementById('mAvgSess').textContent = `${um.avg_session_duration_sec ?? 0}s`;
+
+      document.getElementById('mAiTotal').textContent = am.total_requests ?? 0;
+      document.getElementById('mAiRates').textContent = `${am.requests_per_day ?? 0}/day • ${am.requests_per_user ?? 0}/user`;
+      document.getElementById('mAiLatency').textContent = `${am.avg_response_time_ms ?? 0} ms`;
+      document.getElementById('mAiFailed').textContent = `${am.failed_requests ?? 0} failed requests`;
+      document.getElementById('mCacheRatio').textContent = `${am.cache_hit_ratio_pct ?? 0}%`;
+      document.getElementById('mCacheSaved').textContent = `${am.requests_saved_via_cache ?? 0} LLM calls saved`;
+      document.getElementById('mTokens').textContent = `${(am.total_input_tokens ?? 0).toLocaleString()} / ${(am.total_output_tokens ?? 0).toLocaleString()}`;
+      document.getElementById('mCost').textContent = `$${(am.estimated_cost_usd ?? 0).toFixed(5)}`;
+      document.getElementById('mCostSaved').textContent = `Saved: $${(am.estimated_cost_saved_usd ?? 0).toFixed(5)}`;
+
+      document.getElementById('pBronze').textContent = pm.bronze_records ?? 0;
+      document.getElementById('pSilver').textContent = pm.silver_processed_records ?? 0;
+      document.getElementById('pGold').textContent = pm.gold_aggregated_records ?? 0;
+      document.getElementById('pDupes').textContent = pm.duplicates_removed ?? 0;
+      document.getElementById('pDlq').textContent = pm.failed_dlq_events ?? 0;
+      document.getElementById('pExecMs').textContent = `${pm.pipeline_execution_ms ?? 0} ms`;
+      document.getElementById('pLastRun').textContent = pm.last_successful_processing || 'Never';
+
+      // Render Daily Bar Chart
+      const chartEl = document.getElementById('dailyChart');
+      const series = data.daily_series || [];
+      const maxReq = Math.max(1, ...series.map(s => s.total_requests || 0));
+      chartEl.innerHTML = series.length ? series.map(s => {
+        const hTotal = Math.max(6, Math.round(((s.total_requests || 0) / maxReq) * 140));
+        const hHit = Math.round(((s.cache_hits || 0) / maxReq) * 140);
+        return `
+          <div class="flex-1 flex flex-col items-center gap-1 min-w-[20px]" title="${s.date_utc}: ${s.total_requests} reqs (${s.cache_hits} cached)">
+            <div class="w-full max-w-[28px] bg-blue-500/40 rounded-t relative flex items-end justify-center" style="height:${hTotal}px">
+              <div class="w-full bg-emerald-400/80 rounded-t" style="height:${hHit}px"></div>
+            </div>
+            <span class="text-[9px] font-mono text-slate-400">${s.date_utc.slice(5)}</span>
+          </div>`;
+      }).join('') : '<div class="text-xs text-slate-400 m-auto">No AI request activity recorded in this window yet.</div>';
+
+      // Model Breakdown
+      const mbEl = document.getElementById('modelBreakdown');
+      const models = data.model_breakdown || [];
+      mbEl.innerHTML = models.length ? models.map(m => `
+        <div class="p-3 rounded-lg bg-brand-darkNavy/80 border border-brand-border flex items-center justify-between">
+          <div>
+            <div class="font-mono font-semibold text-slate-200">${m.model_used}</div>
+            <div class="text-[11px] text-slate-400">${m.total_tokens.toLocaleString()} tokens</div>
+          </div>
+          <div class="text-right font-mono">
+            <div class="text-brand-gold font-bold">${m.request_count} reqs</div>
+            <div class="text-[11px] text-slate-400">$${Number(m.cost_usd || 0).toFixed(5)}</div>
+          </div>
+        </div>
+      `).join('') : '<div class="text-slate-400">No model usage data yet.</div>';
+
+      // Recent Sessions
+      const sBody = document.getElementById('sessionsTableBody');
+      sBody.innerHTML = (data.recent_sessions || []).map(s => `
+        <tr>
+          <td class="py-2 pr-3 font-mono text-slate-200">${s.email}</td>
+          <td class="py-2 pr-3 uppercase text-[10px] font-mono text-brand-gold">${s.role}</td>
+          <td class="py-2 pr-3 font-mono text-slate-300">${Math.round(s.session_duration_sec || 0)}s</td>
+          <td class="py-2"><span class="px-2 py-0.5 rounded text-[10px] ${s.is_active ? 'bg-emerald-900/60 text-emerald-300' : 'bg-slate-800 text-slate-400'}">${s.is_active ? 'Active' : 'Ended'}</span></td>
+        </tr>
+      `).join('') || '<tr><td colspan="4" class="py-3 text-slate-400">No sessions recorded.</td></tr>';
+
+      // Audit Logs
+      if (auditRes.ok) {
+        const auditData = await auditRes.json();
+        document.getElementById('auditTableBody').innerHTML = (auditData.items || []).map(a => `
+          <tr>
+            <td class="py-2 pr-3 font-mono text-amber-300">${a.action}</td>
+            <td class="py-2 pr-3 text-slate-300">${a.target_resource || '-'}</td>
+            <td class="py-2 font-mono text-[10px] text-slate-400">${a.created_at}</td>
+          </tr>
+        `).join('') || '<tr><td colspan="3" class="py-3 text-slate-400">No admin actions recorded.</td></tr>';
+      }
+    }
+
+    async function triggerEtlPipeline() {
+      const btn = document.getElementById('btnRunEtl');
+      btn.disabled = true;
+      try {
+        const res = await fetch('/api/admin/pipeline/run', { method: 'POST', credentials: 'same-origin' });
+        const d = await res.json();
+        alert(`ETL Pipeline Complete!\nSilver Processed: ${d.silver_processed}\nQuarantined (DLQ): ${d.quarantined}\nRuntime: ${d.execution_ms}ms`);
+        loadAdminDashboard();
+      } finally {
+        btn.disabled = false;
+      }
+    }
+
+    async function invalidateLegalCache() {
+      const kw = prompt('Enter statute/domain keyword to invalidate (or leave blank to invalidate ALL cached answers):');
+      if (kw === null) return;
+      const res = await fetch('/api/admin/cache/invalidate', {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ statute_keyword: kw.trim() || null, reason: 'Admin dashboard invalidation' })
+      });
+      const d = await res.json();
+      alert(`Invalidated ${d.invalidated_count} cached entries.`);
+      loadAdminDashboard();
+    }
+
+    async function handleAdminSignOut() {
+      try { await fetch('/api/auth/logout', { method: 'POST', credentials: 'same-origin' }); } catch (e) {}
+      try { localStorage.removeItem('nyaya_user'); } catch (e) {}
+      window.location.replace('/login');
+    }
+
+    window.addEventListener('pageshow', (event) => {
+      if (event.persisted) verifyAdminAuth();
+    });
+    loadAdminDashboard();
+  </script>
+</body>
+</html>
+

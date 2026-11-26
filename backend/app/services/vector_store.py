@@ -116,8 +116,20 @@ class SQLiteVectorStore:
         # 3. Reciprocal Rank Fusion
         fused = reciprocal_rank_fusion(top_vectors, bm25_results, k_rrf=60)
 
-        # 4. Cross-Encoder / Legal Reranking with Domain Filtering
-        final_reranked = legal_rerank(query, fused, top_k=top_k, domain=domain)
+        # Deduplicate near-identical chunks before reranking
+        seen_sigs = set()
+        deduped = []
+        for item in fused:
+            sig = hashlib.sha256(item.get("text", "")[:220].strip().lower().encode("utf-8")).hexdigest()
+            if sig not in seen_sigs:
+                seen_sigs.add(sig)
+                deduped.append(item)
+
+        # 4. Rerank only when candidate pool exceeds top_k or domain filtering is active
+        if len(deduped) > top_k or domain:
+            final_reranked = legal_rerank(query, deduped, top_k=top_k, domain=domain)
+        else:
+            final_reranked = deduped[:top_k]
 
         # Format output
         rows = []
@@ -185,21 +197,26 @@ def ingest_chunks(chunks: list[str], metadata: dict, document_id: str) -> int:
     return len(chunks)
 
 
-def search(query: str, top_k: int | None = None, domain: str | None = None) -> list[dict]:
+def search(query: str, top_k: int | None = None, domain: str | None = None, precomputed_embedding: list[float] | None = None) -> list[dict]:
     store_type, store = _get_store()
     k = top_k or settings.top_k
 
     if store_type == "chroma":
         if store.count() == 0:
             return []
-        query_emb = embed_query(query)
+        query_emb = precomputed_embedding if precomputed_embedding is not None else embed_query(query)
         result = store.query(
             query_embeddings=[query_emb],
             n_results=min(k, store.count()),
             include=["documents", "metadatas", "distances"]
         )
         rows = []
+        seen_sigs = set()
         for i, doc in enumerate(result.get("documents", [[]])[0]):
+            sig = hashlib.sha256((doc or "")[:220].strip().lower().encode("utf-8")).hexdigest()
+            if sig in seen_sigs:
+                continue
+            seen_sigs.add(sig)
             meta = result.get("metadatas", [[]])[0][i] or {}
             distance = result.get("distances", [[]])[0][i]
             rows.append({"text": doc, "metadata": meta, "distance": float(distance)})
@@ -207,5 +224,5 @@ def search(query: str, top_k: int | None = None, domain: str | None = None) -> l
     else:
         if store.count() == 0:
             return []
-        query_emb = embed_query(query)
+        query_emb = precomputed_embedding if precomputed_embedding is not None else embed_query(query)
         return store.search_hybrid(query, query_emb, top_k=k, domain=domain)

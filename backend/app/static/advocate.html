@@ -94,10 +94,10 @@
           <span>Citizen Workspace</span>
         </a>
 
-        <a href="/login" id="advocateSignOut" class="px-3 py-2 rounded-lg bg-red-950/40 hover:bg-red-900/60 border border-red-800/50 text-red-300 hover:text-white text-xs font-semibold flex items-center gap-1 transition-all">
+        <button type="button" id="advocateSignOut" onclick="handleAdvocateSignOut()" class="px-3 py-2 rounded-lg bg-red-950/40 hover:bg-red-900/60 border border-red-800/50 text-red-300 hover:text-white text-xs font-semibold flex items-center gap-1 transition-all cursor-pointer">
           <span class="material-symbols-outlined text-[16px]">logout</span>
           <span>Sign Out</span>
-        </a>
+        </button>
       </div>
     </div>
   </header>
@@ -981,6 +981,34 @@ ${c.complaint_letter || 'No separate complaint letter was attached. Case facts:\
     function closeCreatorModal() {
       document.getElementById('creatorContactModal').classList.add('hidden');
     }
+
+    async function verifyAdvocateSession() {
+      try {
+        const res = await fetch('/api/auth/me', { credentials: 'same-origin' });
+        if (!res.ok) {
+          localStorage.removeItem('nyaya_user');
+          window.location.replace('/login');
+          return;
+        }
+        const data = await res.json();
+        if (data.user && data.user.role === 'citizen') {
+          window.location.replace('/app');
+        }
+      } catch (e) {
+        window.location.replace('/login');
+      }
+    }
+
+    async function handleAdvocateSignOut() {
+      try { await fetch('/api/auth/logout', { method: 'POST', credentials: 'same-origin' }); } catch (e) {}
+      try { localStorage.removeItem('nyaya_user'); } catch (e) {}
+      window.location.replace('/login');
+    }
+
+    window.addEventListener('pageshow', (event) => {
+      if (event.persisted) verifyAdvocateSession();
+    });
+    verifyAdvocateSession();
   </script>
 
   <!-- Creator & Founder Spotlight Modal -->

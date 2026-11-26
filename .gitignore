@@ -25,6 +25,9 @@ backend/*.log
 # Database storage & uploads
 backend/data/chroma/
 backend/data/uploads/
+*.db
+*.db-shm
+*.db-wal
 node_modules/
 **/node_modules/
 login/node_modules/

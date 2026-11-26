@@ -14,10 +14,12 @@ Implements the Master System Architecture:
 """
 
 import json
+import time
 from typing import Dict, Any, List, Optional
 from app.services.vector_store import search
 from app.services.hybrid_retriever import is_statute_irrelevant_to_query
-from app.services.llm import generate, LLMUnavailable
+from app.services.llm import generate, generate_with_usage, LLMUnavailable
+from app.services.data_pipeline import estimate_tokens
 from app.agents.citation_verifier import LegalCitationVerificationAgent
 from app.schemas import LegalClaim, VerificationSummary
 from app.services.legal_classifier import LegalClassificationEngine
@@ -49,12 +51,18 @@ AGENT_SPECS = [
 
 class LegalAgentState:
     """Explicit state object passed through the multi-agent pipeline."""
-    def __init__(self, question: str, language: str = "English", jurisdiction: str = "India", incident_date: Optional[str] = None, context: Optional[str] = None):
+    def __init__(self, question: str, language: str = "English", jurisdiction: str = "India", incident_date: Optional[str] = None, context: Optional[str] = None, query_embedding: Optional[List[float]] = None):
         self.question = question
         self.language = language
         self.jurisdiction = jurisdiction
         self.incident_date = incident_date
         self.context = context or ""
+        self.query_embedding = query_embedding
+        self.rag_duration_ms: float = 0.0
+        self.llm_duration_ms: float = 0.0
+        self.input_tokens: int = 0
+        self.output_tokens: int = 0
+        self.model_used: str = "offline-structured"
         
         # State artifacts
         self.classified_issue: Dict[str, Any] = {}
@@ -248,12 +256,19 @@ class NyayaMultiAgentPipeline:
         })
 
     def _run_legal_research(self, state: LegalAgentState):
+        t0 = time.perf_counter()
         enriched_query = f"{state.classified_issue.get('domain', '')} {state.question}"
-        state.retrieved_passages = search(enriched_query, top_k=7, domain=state.classified_issue.get("domain"))
+        state.retrieved_passages = search(
+            enriched_query,
+            top_k=7,
+            domain=state.classified_issue.get("domain"),
+            precomputed_embedding=state.query_embedding,
+        )
+        state.rag_duration_ms = round((time.perf_counter() - t0) * 1000, 2)
         state.agent_logs.append({
             "agent": AGENT_SPECS[1]["name"],
             "status": "completed",
-            "note": f"Retrieved {len(state.retrieved_passages)} relevant section passages via Hybrid BM25+Vector Search."
+            "note": f"Retrieved {len(state.retrieved_passages)} relevant section passages via Hybrid BM25+Vector Search ({state.rag_duration_ms}ms)."
         })
 
     def _run_status_verification(self, state: LegalAgentState):
@@ -388,11 +403,11 @@ class NyayaMultiAgentPipeline:
         })
 
     def _run_citation_verification(self, state: LegalAgentState):
-        # Prepare context prompt for LLM synthesis
+        # Token-aware context construction (cap at 5 deduplicated passages, 700 chars each)
         source_block = "\n\n".join(
             f"[SOURCE {i}] title={s['metadata'].get('title','Unknown')}; status={s['metadata'].get('status','unknown')}; "
-            f"source_url={s['metadata'].get('source_url','')}\n{s['text']}"
-            for i, s in enumerate(state.retrieved_passages, 1)
+            f"source_url={s['metadata'].get('source_url','')}\n{s['text'][:700]}"
+            for i, s in enumerate(state.retrieved_passages[:5], 1)
         ) or "Authoritative Indian statutory registry active."
 
         system_instruction = """You are NyayaAI, an Indian legal intelligence platform.
@@ -431,10 +446,18 @@ Format strictly with these headings:
 ### 🏛️ Official Portals & Contact Helplines
 ### 💼 When to Consult an Advocate"""
 
+        t_llm = time.perf_counter()
         try:
-            draft = generate(system_instruction, user_prompt)
+            draft, in_tok, out_tok, model_used = generate_with_usage(system_instruction, user_prompt)
+            state.input_tokens = in_tok
+            state.output_tokens = out_tok
+            state.model_used = model_used
         except Exception:
             draft = self._build_offline_structured_draft(state)
+            state.input_tokens = estimate_tokens(system_instruction + user_prompt)
+            state.output_tokens = estimate_tokens(draft)
+            state.model_used = "offline-structured-fallback"
+        state.llm_duration_ms = round((time.perf_counter() - t_llm) * 1000, 2)
 
         # Execute Citation Verifier
         verified_answer, claims, summary = self.citation_verifier.verify_response(
@@ -802,5 +825,14 @@ If the dispute involves contentious questions of fact, criminal summons, or repr
             "confidence": f"10-Agent Verified RAG · Citation Audit: {verdict}",
             "disclaimer": DISCLAIMER,
             "claims": [c.model_dump() for c in state.verified_claims],
-            "verification_summary": state.verification_summary.model_dump() if state.verification_summary else {}
+            "verification_summary": state.verification_summary.model_dump() if state.verification_summary else {},
+            "telemetry": {
+                "legal_domain": state.classified_issue.get("domain", "General"),
+                "rag_duration_ms": state.rag_duration_ms,
+                "llm_duration_ms": state.llm_duration_ms,
+                "input_tokens": state.input_tokens,
+                "output_tokens": state.output_tokens,
+                "model_used": state.model_used,
+                "retrieval_doc_count": len(state.retrieved_passages),
+            },
         }

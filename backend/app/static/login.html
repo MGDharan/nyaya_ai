@@ -830,8 +830,37 @@
 
             document.addEventListener('DOMContentLoaded', () => {
                 setupOtpInputs();
+                if (window.location.pathname === '/register') {
+                    switchAuthMode('signup');
+                }
                 checkExistingSession();
             });
+
+            async function syncBackendSession(user, accessToken) {
+                try {
+                    const meta = user.user_metadata || {};
+                    const res = await fetch('/api/auth/session', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            email: user.email || '',
+                            full_name: meta.full_name || '',
+                            role: meta.role || currentRole || 'citizen',
+                            bar_council_no: meta.bar_council_no || null,
+                            supabase_access_token: accessToken || null,
+                            supabase_user_id: user.id || null,
+                            device_info: navigator.platform || 'Web',
+                            browser_info: navigator.userAgent.slice(0, 100)
+                        })
+                    });
+                    if (res.ok) {
+                        return await res.json();
+                    }
+                } catch (e) {
+                    console.warn('Backend session sync note:', e);
+                }
+                return null;
+            }
 
             // Check if user has an existing valid session in Supabase
             async function checkExistingSession() {
@@ -839,7 +868,8 @@
                 try {
                     const { data: { session }, error } = await supabaseClient.auth.getSession();
                     if (session && session.user) {
-                        displayAuthenticatedUser(session.user);
+                        const backendSess = await syncBackendSession(session.user, session.access_token);
+                        displayAuthenticatedUser(session.user, backendSess?.user?.role);
                     }
                 } catch (err) {
                     console.warn("Session check note:", err);
@@ -986,6 +1016,11 @@
                             btn.disabled = false;
                             btn.classList.remove('opacity-80');
                             btnText.textContent = "Sign In with Email & Password";
+                            fetch('/api/auth/login-failure', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ reason: error.message || 'invalid_credentials' })
+                            }).catch(() => {});
 
                             if (error.message.toLowerCase().includes('email not confirmed')) {
                                 showAlert(alertEl, 'error', `
@@ -1003,16 +1038,18 @@
                             return;
                         }
 
-                        // Success
-                        const dest = (data.user?.user_metadata?.role === 'advocate' || currentRole === 'advocate') ? '/advocate' : '/app';
-                        showAlert(alertEl, 'success', `Login successful! Launching ${dest === '/advocate' ? 'Advocate Counsel Console' : 'Nyaya AI'}...`);
+                        // Success: sync backend HttpOnly session & analytics
+                        const backendSess = await syncBackendSession(data.user, data.session?.access_token);
+                        const effectiveRole = backendSess?.user?.role || data.user?.user_metadata?.role || currentRole;
+                        const dest = effectiveRole === 'admin' ? '/admin' : (effectiveRole === 'advocate' ? '/advocate' : '/app');
+                        showAlert(alertEl, 'success', `Login successful! Launching ${dest === '/admin' ? 'Admin Monitoring Dashboard' : (dest === '/advocate' ? 'Advocate Counsel Console' : 'Nyaya AI')}...`);
                         setTimeout(() => {
                             btn.disabled = false;
                             btn.classList.remove('opacity-80');
                             btnText.textContent = "Sign In with Email & Password";
-                            displayAuthenticatedUser(data.user);
+                            displayAuthenticatedUser(data.user, effectiveRole);
                             window.location.href = dest;
-                        }, 750);
+                        }, 600);
                         return;
                     } catch (err) {
                         btn.disabled = false;
@@ -1263,7 +1300,7 @@
             // ========================================================
             // 4. DISPLAY AUTHENTICATED USER
             // ========================================================
-            function displayAuthenticatedUser(user) {
+            function displayAuthenticatedUser(user, overrideRole) {
                 const tabsNav = document.getElementById('authTabsNav');
                 const roleSelector = document.getElementById('roleSelectorContainer');
                 const signInForm = document.getElementById('signInForm');
@@ -1282,9 +1319,9 @@
                 if (authCard) authCard.classList.remove('hidden');
 
                 const name = user.user_metadata?.full_name || (user.email ? user.email.split('@')[0] : 'User');
-                const role = user.user_metadata?.role || currentRole || 'advocate';
+                const role = overrideRole || user.user_metadata?.role || currentRole || 'citizen';
 
-                // Save to localStorage so main legal assistant can identify active user
+                // Save non-sensitive display info to localStorage
                 try {
                     localStorage.setItem('nyaya_user', JSON.stringify({
                         email: user.email || '',
@@ -1299,11 +1336,11 @@
 
                 document.getElementById('authUserNameEcho').textContent = `Welcome, ${name}`;
                 document.getElementById('authUserEmailEcho').textContent = user.email || '';
-                document.getElementById('authSessionRolePill').textContent = role === 'advocate' ? 'Advocate / Counsel Console' : 'Civilian / Litigant Console';
+                document.getElementById('authSessionRolePill').textContent = role === 'admin' ? 'System Administrator' : (role === 'advocate' ? 'Advocate / Counsel Console' : 'Civilian / Litigant Console');
 
                 const btnAdvocate = document.getElementById('btnLaunchAdvocate');
                 const btnCitizenText = document.getElementById('btnLaunchCitizenText');
-                if (role === 'advocate') {
+                if (role === 'advocate' || role === 'admin') {
                     if (btnAdvocate) btnAdvocate.classList.remove('hidden');
                     if (btnCitizenText) btnCitizenText.textContent = "Open Citizen Assistant Workspace";
                 } else {
@@ -1324,6 +1361,9 @@
             // 5. SIGN OUT
             // ========================================================
             async function handleSignOut() {
+                try {
+                    await fetch('/api/auth/logout', { method: 'POST' });
+                } catch (e) {}
                 try {
                     localStorage.removeItem('nyaya_user');
                 } catch (e) {}

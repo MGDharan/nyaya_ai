@@ -479,10 +479,15 @@ $('ask').addEventListener('click', async () => {
   $('agents').innerHTML = '';
   $('sources').innerHTML = '';
 
+  const idempotencyKey = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : String(Date.now());
   try {
     const res = await fetch('/api/chat', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      credentials: 'same-origin',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Idempotency-Key': idempotencyKey
+      },
       body: JSON.stringify({
         question,
         language: $('language').value,
@@ -492,6 +497,10 @@ $('ask').addEventListener('click', async () => {
       })
     });
 
+    if (res.status === 401) {
+      window.location.replace('/login');
+      return;
+    }
     const data = await res.json();
     if (!res.ok) throw new Error(data.detail || 'Request failed');
 
@@ -571,42 +580,66 @@ $('print').addEventListener('click', () => {
   window.print();
 });
 
-// ── Authentication & User Session Header ────────────────────────────────────
-function initAuthHeader() {
+// ── Authentication & User Session Header (Strict Login-First) ──────────────
+async function initAuthHeader() {
   const badge = $('userBadge');
-  const guest = $('guestPrompt');
   let user = null;
+
   try {
-    const raw = localStorage.getItem('nyaya_user');
-    if (raw) user = JSON.parse(raw);
-  } catch (e) {}
-
-  if (user && (user.email || user.name)) {
-    if (badge) badge.style.display = 'flex';
-    if (guest) guest.style.display = 'none';
-    const nameEl = $('userDisplayName');
-    const roleEl = $('userRoleBadge');
-    const avatarEl = $('userAvatar');
-    if (nameEl) nameEl.textContent = user.name || user.email;
-    if (roleEl) roleEl.textContent = (user.role === 'advocate' ? 'Advocate' : 'Civilian');
-    if (avatarEl) avatarEl.textContent = (user.role === 'advocate' ? '👨‍⚖️' : '👤');
-
-    const counselLink = $('counselConsoleLink');
-    if (counselLink) {
-      counselLink.style.display = (user.role === 'advocate') ? 'inline-block' : 'none';
+    const res = await fetch('/api/auth/me', { credentials: 'same-origin' });
+    if (res.status === 401) {
+      localStorage.removeItem('nyaya_user');
+      window.location.replace('/login');
+      return;
     }
-
-    const outBtn = $('headerSignOut');
-    if (outBtn) {
-      outBtn.onclick = () => {
-        try { localStorage.removeItem('nyaya_user'); } catch (e) {}
-      };
+    if (res.ok) {
+      const data = await res.json();
+      user = data.user;
+      localStorage.setItem('nyaya_user', JSON.stringify(user));
     }
-  } else {
-    if (badge) badge.style.display = 'none';
-    if (guest) guest.style.display = 'flex';
+  } catch (e) {
+    window.location.replace('/login');
+    return;
+  }
+
+  if (!user) {
+    window.location.replace('/login');
+    return;
+  }
+
+  if (badge) badge.style.display = 'flex';
+  const nameEl = $('userDisplayName');
+  const roleEl = $('userRoleBadge');
+  const avatarEl = $('userAvatar');
+  if (nameEl) nameEl.textContent = user.name || user.email;
+  if (roleEl) roleEl.textContent = user.role === 'admin' ? 'Admin' : (user.role === 'advocate' ? 'Advocate' : 'Civilian');
+  if (avatarEl) avatarEl.textContent = user.role === 'admin' ? '🛡️' : (user.role === 'advocate' ? '👨‍⚖️' : '👤');
+
+  const counselLink = $('counselConsoleLink');
+  if (counselLink) {
+    counselLink.style.display = (user.role === 'advocate' || user.role === 'admin') ? 'inline-block' : 'none';
+  }
+  const adminLink = $('adminConsoleLink');
+  if (adminLink) {
+    adminLink.style.display = (user.role === 'admin') ? 'inline-block' : 'none';
+  }
+
+  const outBtn = $('headerSignOut');
+  if (outBtn) {
+    outBtn.onclick = async () => {
+      try { await fetch('/api/auth/logout', { method: 'POST', credentials: 'same-origin' }); } catch (e) {}
+      try { localStorage.removeItem('nyaya_user'); } catch (e) {}
+      window.location.replace('/login');
+    };
   }
 }
+
+// Prevent unauthorized access via browser back/forward bfcache after logout
+window.addEventListener('pageshow', (event) => {
+  if (event.persisted) {
+    initAuthHeader();
+  }
+});
 
 // ── Choose Advocate & Send Complaint Integration ───────────────────────────
 let availableAdvocates = [];
